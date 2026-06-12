@@ -499,7 +499,6 @@ const TEAM_COLORS = {
   berlin:      '#00e87a',
   frankfurt:   '#ffd60a',
   dortmund:    '#f97316',
-  stuttgart:   '#a855f7',
   hennigsdorf: '#22d3ee',
 };
 
@@ -508,8 +507,7 @@ const TEAM_NAMES = {
   muenchen:    'München',
   berlin:      'Berlin',
   frankfurt:   'Frankfurt',
-  dortmund:    'Dortmund',
-  stuttgart:   'Stuttgart',
+  dortmund:    'Dortmund (NRW)',
   hennigsdorf: 'Hennigsdorf',
 };
 
@@ -613,20 +611,18 @@ function renderCumulativeChart(byTeam, teamsConfig, teamOrder) {
     const label    = TEAM_NAMES[id] || id;
 
     if (isFinished) {
-      // Flat dashed reference line from event_start to event_end at final km.
-      // Requires at least one scraped snapshot for the final km value.
+      // Flat dashed reference line spanning the full chart width — a target to cross.
+      // Starts at chart left edge, ends at our event's end (July 5).
       if (!snaps.length) continue;
-      const finalKm = snaps[snaps.length - 1].sum_km;
-      const xStart  = new Date(cfg.event_start + 'T00:00:00+02:00');
-      const xEnd    = new Date(cfg.event_end   + 'T23:59:00+02:00');
+      const finalKm  = snaps[snaps.length - 1].sum_km;
+      const chartMin = new Date('2026-05-01T00:00:00+02:00');
 
       datasets.push({
-        label: `${label} (Final)`,
-        data: [{ x: xStart, y: finalKm }, { x: xEnd, y: finalKm }],
+        label: `${label} — ${fmt(finalKm)} km`,
+        data: [{ x: chartMin, y: finalKm }, { x: EVENT_END, y: finalKm }],
         borderColor: color,
         backgroundColor: 'transparent',
-        pointRadius: [0, 4],
-        pointStyle: ['rect', 'circle'],
+        pointRadius: 0,
         borderWidth: 1.5,
         borderDash: [6, 4],
         tension: 0,
@@ -673,8 +669,10 @@ function renderCumulativeChart(byTeam, teamsConfig, teamOrder) {
           labels: {
             padding: 12,
             boxWidth: 12,
+            color: '#f0f0f0',
             generateLabels: chart => chart.data.datasets.map((ds, i) => ({
               text: ds.label,
+              fontColor: '#f0f0f0',
               fillStyle: ds.borderColor,
               strokeStyle: ds.borderColor,
               lineWidth: ds.borderWidth,
@@ -985,7 +983,7 @@ async function loadData() {
 
   const latest   = latestPerTeam(snapshots);
   const byTeam   = snapshotsByTeam(snapshots);
-  const teamOrder = ['nuernberg','muenchen','berlin','frankfurt','dortmund','stuttgart','hennigsdorf'];
+  const teamOrder = ['nuernberg','muenchen','berlin','frankfurt','dortmund','hennigsdorf'];
 
   // Compute home daily rate (km/day) from recent snapshots
   const homeSnaps = byTeam[HOME_ID] || [];

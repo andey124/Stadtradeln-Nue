@@ -44,7 +44,7 @@
       "id": "dortmund",
       "city": "Dortmund",
       "city_slug": "dortmund",
-      "team_name": "Dataciders Dortmund",
+      "team_name": "Dataciders NRW",
       "event_start": "2026-05-03",
       "event_end": "2026-05-23",
       "status": "finished",
@@ -54,10 +54,10 @@
       "id": "stuttgart",
       "city": "Stuttgart",
       "city_slug": "stuttgart",
-      "team_name": "Dataciders Stuttgart",
+      "team_name": null,
       "event_start": "2026-05-04",
       "event_end": "2026-05-24",
-      "status": "finished",
+      "status": "no_team",
       "is_home": false
     },
     {
