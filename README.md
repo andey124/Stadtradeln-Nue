@@ -3,7 +3,7 @@
 Live-Dashboard zum Vergleich der Dataciders-Teams beim STADTRADELN 2026.
 Nürnberg tritt an gegen die bereits abgeschlossenen Ergebnisse der anderen Standorte.
 
-**👉 [Dashboard öffnen](https://YOUR-USERNAME.github.io/YOUR-REPO-NAME/)**
+**👉 [Dashboard öffnen](https://andey124.github.io/Stadtradeln-Nue/)**
 
 ---
 
