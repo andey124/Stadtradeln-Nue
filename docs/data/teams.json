@@ -1,0 +1,74 @@
+{
+  "teams": [
+    {
+      "id": "nuernberg",
+      "city": "Nürnberg",
+      "city_slug": "nuernberg",
+      "team_name": "Dataciders Nürnberg",
+      "event_start": "2026-06-15",
+      "event_end": "2026-07-05",
+      "status": "active",
+      "is_home": true
+    },
+    {
+      "id": "muenchen",
+      "city": "München",
+      "city_slug": "muenchen",
+      "team_name": "Dataciders München",
+      "event_start": "2026-06-15",
+      "event_end": "2026-07-05",
+      "status": "active",
+      "is_home": false
+    },
+    {
+      "id": "berlin",
+      "city": "Berlin",
+      "city_slug": "berlin",
+      "team_name": "Dataciders Berlin",
+      "event_start": "2026-05-20",
+      "event_end": "2026-06-09",
+      "status": "finished",
+      "is_home": false
+    },
+    {
+      "id": "frankfurt",
+      "city": "Frankfurt/M",
+      "city_slug": "frankfurt-am-main",
+      "team_name": "Dataciders Frankfurt",
+      "event_start": "2026-05-01",
+      "event_end": "2026-05-21",
+      "status": "finished",
+      "is_home": false
+    },
+    {
+      "id": "dortmund",
+      "city": "Dortmund",
+      "city_slug": "dortmund",
+      "team_name": "Dataciders Dortmund",
+      "event_start": "2026-05-03",
+      "event_end": "2026-05-23",
+      "status": "finished",
+      "is_home": false
+    },
+    {
+      "id": "stuttgart",
+      "city": "Stuttgart",
+      "city_slug": "stuttgart",
+      "team_name": "Dataciders Stuttgart",
+      "event_start": "2026-05-04",
+      "event_end": "2026-05-24",
+      "status": "finished",
+      "is_home": false
+    },
+    {
+      "id": "hennigsdorf",
+      "city": "Hennigsdorf",
+      "city_slug": "hennigsdorf",
+      "team_name": "Dataciders Hennigsdorf",
+      "event_start": "2026-05-09",
+      "event_end": "2026-05-29",
+      "status": "finished",
+      "is_home": false
+    }
+  ]
+}

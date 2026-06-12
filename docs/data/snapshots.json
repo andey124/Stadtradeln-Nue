@@ -1,0 +1,8 @@
+{
+  "snapshots": [],
+  "last_updated": null,
+  "meta": {
+    "description": "Time-series snapshots of STADTRADELN leaderboard data for all Dataciders teams",
+    "fields": ["timestamp", "team_id", "sum_km", "rides", "riders", "km_per_head"]
+  }
+}

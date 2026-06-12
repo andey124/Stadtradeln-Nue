@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dataciders Rennradeln 🚴 STADTRADELN 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+
+  <style>
+    /* ── Design tokens ─────────────────────────────────────────── */
+    :root {
+      --dc-red:      #D60B52;
+      --dc-red-dim:  #9a0a3c;
+      --dc-bg:       #0d0d0d;
+      --dc-surface:  #161616;
+      --dc-surface2: #1f1f1f;
+      --dc-border:   #2a2a2a;
+      --dc-text:     #f0f0f0;
+      --dc-muted:    #888;
+      --dc-green:    #00e87a;
+      --dc-yellow:   #ffd60a;
+      --dc-blue:     #3a86ff;
+      --dc-font:     'Barlow', sans-serif;
+      --dc-font-cond:'Barlow Condensed', sans-serif;
+    }
+
+    /* ── Reset ────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--dc-bg);
+      color: var(--dc-text);
+      font-family: var(--dc-font);
+      font-size: 16px;
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    /* ── Header ───────────────────────────────────────────────── */
+    .site-header {
+      background: linear-gradient(135deg, #0d0d0d 0%, #1a0810 100%);
+      border-bottom: 2px solid var(--dc-red);
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-title {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .header-title .logo-dot {
+      width: 14px;
+      height: 14px;
+      background: var(--dc-red);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(214,11,82,.6); }
+      50%       { box-shadow: 0 0 0 8px rgba(214,11,82,0); }
+    }
+    .header-title h1 {
+      font-family: var(--dc-font-cond);
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .header-title h1 span { color: var(--dc-red); }
+    .header-meta {
+      font-size: .8rem;
+      color: var(--dc-muted);
+      text-align: right;
+    }
+    .header-meta strong { color: var(--dc-text); }
+
+    /* ── Layout ───────────────────────────────────────────────── */
+    .container { max-width: 1400px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+    /* ── Countdown banner ─────────────────────────────────────── */
+    .countdown-banner {
+      background: linear-gradient(90deg, var(--dc-red-dim), var(--dc-surface2));
+      border: 1px solid var(--dc-red);
+      border-radius: 8px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .countdown-banner .icon { font-size: 2rem; }
+    .countdown-banner .text { flex: 1; }
+    .countdown-banner .text h2 {
+      font-family: var(--dc-font-cond);
+      font-weight: 700;
+      font-size: 1.2rem;
+      text-transform: uppercase;
+    }
+    .countdown-banner .text p { color: var(--dc-muted); font-size: .9rem; }
+    .countdown-digits {
+      display: flex;
+      gap: .75rem;
+      flex-wrap: wrap;
+    }
+    .digit-block {
+      text-align: center;
+      min-width: 52px;
+    }
+    .digit-block .num {
+      font-family: var(--dc-font-cond);
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--dc-red);
+      line-height: 1;
+    }
+    .digit-block .label {
+      font-size: .65rem;
+      color: var(--dc-muted);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    /* ── KPI cards grid ───────────────────────────────────────── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .kpi-card {
+      background: var(--dc-surface);
+      border: 1px solid var(--dc-border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color .2s;
+    }
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--accent, var(--dc-red));
+    }
+    .kpi-card:hover { border-color: var(--accent, var(--dc-red)); }
+    .kpi-card .kpi-label {
+      font-size: .75rem;
+      color: var(--dc-muted);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-bottom: .5rem;
+    }
+    .kpi-card .kpi-value {
+      font-family: var(--dc-font-cond);
+      font-size: 2.2rem;
+      font-weight: 900;
+      line-height: 1;
+      color: var(--accent, var(--dc-red));
+    }
+    .kpi-card .kpi-sub {
+      font-size: .8rem;
+      color: var(--dc-muted);
+      margin-top: .35rem;
+    }
+
+    /* ── Section headings ─────────────────────────────────────── */
+    .section-heading {
+      font-family: var(--dc-font-cond);
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--dc-muted);
+      border-left: 3px solid var(--dc-red);
+      padding-left: .75rem;
+      margin-bottom: 1rem;
+      margin-top: 2.5rem;
+    }
+
+    /* ── Chart cards ──────────────────────────────────────────── */
+    .chart-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    @media (max-width: 900px) { .chart-grid { grid-template-columns: 1fr; } }
+    .chart-card {
+      background: var(--dc-surface);
+      border: 1px solid var(--dc-border);
+      border-radius: 8px;
+      padding: 1.5rem;
+    }
+    .chart-card.full-width { grid-column: 1 / -1; }
+    .chart-card h3 {
+      font-family: var(--dc-font-cond);
+      font-weight: 700;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--dc-muted);
+      margin-bottom: 1rem;
+    }
+    .chart-card h3 span { color: var(--dc-text); }
+    .chart-wrap { position: relative; height: 280px; }
+    .chart-wrap.tall   { height: 360px; }
+
+    /* ── Race table ───────────────────────────────────────────── */
+    .race-table-wrap { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .9rem;
+    }
+    thead th {
+      text-align: left;
+      padding: .6rem .75rem;
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--dc-muted);
+      border-bottom: 1px solid var(--dc-border);
+    }
+    tbody tr {
+      border-bottom: 1px solid var(--dc-border);
+      transition: background .15s;
+    }
+    tbody tr:hover { background: var(--dc-surface2); }
+    tbody tr.home-row { background: rgba(214,11,82,.08); }
+    tbody tr.home-row:hover { background: rgba(214,11,82,.15); }
+    tbody td { padding: .65rem .75rem; }
+    .rank-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      font-weight: 700;
+      font-size: .85rem;
+      background: var(--dc-surface2);
+    }
+    .rank-badge.gold   { background: #7d6011; color: var(--dc-yellow); }
+    .rank-badge.silver { background: #3a3a3a; color: #c0c0c0; }
+    .rank-badge.bronze { background: #4a2a10; color: #cd7f32; }
+    .team-name-cell { font-weight: 600; }
+    .team-name-cell .city-tag {
+      font-size: .7rem;
+      color: var(--dc-muted);
+      font-weight: 400;
+      margin-left: .4rem;
+    }
+    .home-badge {
+      font-size: .65rem;
+      font-weight: 700;
+      background: var(--dc-red);
+      color: white;
+      padding: .15rem .45rem;
+      border-radius: 3px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      margin-left: .5rem;
+    }
+    .status-pill {
+      font-size: .7rem;
+      padding: .2rem .5rem;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+    .status-active   { background: rgba(0,232,122,.15); color: var(--dc-green); }
+    .status-finished { background: rgba(136,136,136,.15); color: var(--dc-muted); }
+    .overtake-eta {
+      font-size: .8rem;
+    }
+    .overtake-eta .eta-date { color: var(--dc-yellow); font-weight: 600; }
+    .overtake-eta .eta-done { color: var(--dc-green); font-weight: 600; }
+    .overtake-eta .eta-na   { color: var(--dc-muted); }
+    .progress-bar-wrap {
+      background: var(--dc-border);
+      border-radius: 4px;
+      height: 6px;
+      min-width: 80px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: var(--dc-red);
+      transition: width .5s ease;
+    }
+    .progress-bar-fill.done { background: var(--dc-green); }
+
+    /* ── Milestone feed ───────────────────────────────────────── */
+    .milestone-feed {
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+    }
+    .milestone-item {
+      background: var(--dc-surface);
+      border: 1px solid var(--dc-border);
+      border-radius: 8px;
+      padding: .85rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .milestone-item .ms-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .milestone-item .ms-text strong { font-size: .95rem; display: block; }
+    .milestone-item .ms-text small  { color: var(--dc-muted); font-size: .8rem; }
+    .milestone-item.ms-future { opacity: .5; }
+    .milestone-item.ms-achieved { border-color: var(--dc-green); }
+
+    /* ── "No data" state ──────────────────────────────────────── */
+    .no-data-state {
+      text-align: center;
+      padding: 3rem 2rem;
+      color: var(--dc-muted);
+    }
+    .no-data-state .big-icon { font-size: 4rem; margin-bottom: 1rem; }
+    .no-data-state h2 { font-family: var(--dc-font-cond); font-size: 1.5rem; margin-bottom: .5rem; }
+    .no-data-state p  { font-size: .9rem; }
+
+    /* ── Footer ───────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--dc-border);
+      margin-top: 4rem;
+      padding: 1.5rem 2rem;
+      text-align: center;
+      font-size: .8rem;
+      color: var(--dc-muted);
+    }
+    footer a { color: var(--dc-red); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── Responsive tweaks ─────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .site-header { flex-direction: column; align-items: flex-start; }
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .chart-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Header ─────────────────────────────────────────────────── -->
+<header class="site-header">
+  <div class="header-title">
+    <div class="logo-dot"></div>
+    <h1>Dataciders <span>Rennradeln</span> 🚴</h1>
+  </div>
+  <div class="header-meta">
+    STADTRADELN Nürnberg 2026<br />
+    Zuletzt aktualisiert: <strong id="last-updated">—</strong>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- ── Event countdown / status ───────────────────────────────── -->
+  <div class="countdown-banner" id="countdown-banner">
+    <div class="icon">🏁</div>
+    <div class="text">
+      <h2 id="countdown-title">STADTRADELN Nürnberg startet in</h2>
+      <p id="countdown-subtitle">15. Juni – 5. Juli 2026 · Nürnberg</p>
+    </div>
+    <div class="countdown-digits" id="countdown-digits">
+      <div class="digit-block"><div class="num" id="cd-days">—</div><div class="label">Tage</div></div>
+      <div class="digit-block"><div class="num" id="cd-hours">—</div><div class="label">Std</div></div>
+      <div class="digit-block"><div class="num" id="cd-mins">—</div><div class="label">Min</div></div>
+      <div class="digit-block"><div class="num" id="cd-secs">—</div><div class="label">Sek</div></div>
+    </div>
+  </div>
+
+  <!-- ── KPI row ────────────────────────────────────────────────── -->
+  <div class="kpi-grid" id="kpi-grid">
+    <div class="kpi-card" style="--accent:var(--dc-red)">
+      <div class="kpi-label">Nürnberg gesamt</div>
+      <div class="kpi-value" id="kpi-total-km">— km</div>
+      <div class="kpi-sub" id="kpi-riders">— Radelnde</div>
+    </div>
+    <div class="kpi-card" style="--accent:var(--dc-yellow)">
+      <div class="kpi-label">Tempo heute</div>
+      <div class="kpi-value" id="kpi-daily-pace">— km</div>
+      <div class="kpi-sub">Ø km heute (Schätzung)</div>
+    </div>
+    <div class="kpi-card" style="--accent:var(--dc-blue)">
+      <div class="kpi-label">km pro Kopf</div>
+      <div class="kpi-value" id="kpi-km-per-head">—</div>
+      <div class="kpi-sub" id="kpi-km-per-head-rank">Ranking: —</div>
+    </div>
+    <div class="kpi-card" style="--accent:var(--dc-green)">
+      <div class="kpi-label">Prognose Endstand</div>
+      <div class="kpi-value" id="kpi-projection">— km</div>
+      <div class="kpi-sub">bei aktuellem Tempo</div>
+    </div>
+    <div class="kpi-card" style="--accent:#a855f7">
+      <div class="kpi-label">Nächstes Opfer 🎯</div>
+      <div class="kpi-value" id="kpi-next-target">—</div>
+      <div class="kpi-sub" id="kpi-next-target-eta">ETA: —</div>
+    </div>
+    <div class="kpi-card" style="--accent:#f97316">
+      <div class="kpi-label">Event-Fortschritt</div>
+      <div class="kpi-value" id="kpi-event-pct">—%</div>
+      <div class="kpi-sub" id="kpi-days-left">— Tage übrig</div>
+    </div>
+  </div>
+
+  <!-- ── Race leaderboard table ─────────────────────────────────── -->
+  <h2 class="section-heading">🏆 Dataciders Rennübersicht</h2>
+  <div class="chart-card">
+    <div class="race-table-wrap">
+      <table id="race-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Team</th>
+            <th>Status</th>
+            <th>km gesamt</th>
+            <th>Radelnde</th>
+            <th>km/Kopf</th>
+            <th>Fahrten</th>
+            <th>Nürnberg %</th>
+            <th>Überholt am</th>
+          </tr>
+        </thead>
+        <tbody id="race-tbody">
+          <tr><td colspan="9" style="text-align:center;color:var(--dc-muted);padding:2rem">Lade Daten…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── Charts ─────────────────────────────────────────────────── -->
+  <h2 class="section-heading">📈 Kilometerverlauf</h2>
+  <div class="chart-grid">
+    <div class="chart-card full-width">
+      <h3><span>Kumulierte km</span> aller Dataciders Teams</h3>
+      <div class="chart-wrap tall">
+        <canvas id="chart-cumulative"></canvas>
+      </div>
+    </div>
+    <div class="chart-card">
+      <h3><span>Tages-km</span> Nürnberg</h3>
+      <div class="chart-wrap">
+        <canvas id="chart-daily"></canvas>
+      </div>
+    </div>
+    <div class="chart-card">
+      <h3><span>km pro Kopf</span> Vergleich</h3>
+      <div class="chart-wrap">
+        <canvas id="chart-kmperhead"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Milestones / overtake feed ─────────────────────────────── -->
+  <h2 class="section-heading">🎉 Meilensteine</h2>
+  <div class="chart-card">
+    <div class="milestone-feed" id="milestone-feed">
+      <div class="no-data-state">
+        <div class="big-icon">⏳</div>
+        <h2>Noch kein Meilenstein erreicht</h2>
+        <p>Das Rennen beginnt am 15. Juni – dann schlägt Nürnberg zu!</p>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Dataciders Rennradeln Dashboard · STADTRADELN Nürnberg 2026 ·
+  Daten von <a href="https://www.stadtradeln.de/nuernberg" target="_blank">stadtradeln.de</a> ·
+  Letztes Update: <span id="footer-updated">—</span>
+</footer>
+
+<!-- ── Data + Logic ───────────────────────────────────────────── -->
+<script>
+// ── Config ──────────────────────────────────────────────────────
+const EVENT_START = new Date('2026-06-15T00:00:00+02:00');
+const EVENT_END   = new Date('2026-07-05T23:59:59+02:00');
+const HOME_ID     = 'nuernberg';
+
+// Team display colors (order matters for chart)
+const TEAM_COLORS = {
+  nuernberg:   '#D60B52',
+  muenchen:    '#3a86ff',
+  berlin:      '#00e87a',
+  frankfurt:   '#ffd60a',
+  dortmund:    '#f97316',
+  stuttgart:   '#a855f7',
+  hennigsdorf: '#22d3ee',
+};
+
+const TEAM_NAMES = {
+  nuernberg:   'Nürnberg',
+  muenchen:    'München',
+  berlin:      'Berlin',
+  frankfurt:   'Frankfurt',
+  dortmund:    'Dortmund',
+  stuttgart:   'Stuttgart',
+  hennigsdorf: 'Hennigsdorf',
+};
+
+// ── Helpers ──────────────────────────────────────────────────────
+const fmt = (n, dec=0) => (n ?? 0).toLocaleString('de-DE', { maximumFractionDigits: dec });
+const fmtDate = d => d.toLocaleDateString('de-DE', { day:'2-digit', month:'2-digit', year:'2-digit' });
+
+function latestPerTeam(snapshots) {
+  const map = {};
+  for (const s of snapshots) {
+    const existing = map[s.team_id];
+    if (!existing || new Date(s.timestamp) > new Date(existing.timestamp)) {
+      map[s.team_id] = s;
+    }
+  }
+  return map;
+}
+
+function snapshotsByTeam(snapshots) {
+  const map = {};
+  for (const s of snapshots) {
+    if (!map[s.team_id]) map[s.team_id] = [];
+    map[s.team_id].push(s);
+  }
+  // Sort each team's snapshots by time
+  for (const id in map) map[id].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+  return map;
+}
+
+// Estimate overtake date given home rate (km/day) and gap (km)
+function estimateOvertake(homeKm, homeRate, targetKm) {
+  if (homeKm >= targetKm) return 'done';
+  if (homeRate <= 0) return null;
+  const daysNeeded = (targetKm - homeKm) / homeRate;
+  const eta = new Date(Date.now() + daysNeeded * 86_400_000);
+  return eta > EVENT_END ? null : eta;
+}
+
+// ── Countdown timer ──────────────────────────────────────────────
+function updateCountdown() {
+  const now = new Date();
+  const title  = document.getElementById('countdown-title');
+  const sub    = document.getElementById('countdown-subtitle');
+  const banner = document.getElementById('countdown-banner');
+
+  let target;
+  if (now < EVENT_START) {
+    target = EVENT_START;
+    title.textContent = 'STADTRADELN Nürnberg startet in';
+    banner.style.background = 'linear-gradient(90deg,#0d0d0d 0%,#1a0810 100%)';
+  } else if (now <= EVENT_END) {
+    target = EVENT_END;
+    title.textContent = '⏳ Event endet in';
+    banner.style.background = 'linear-gradient(90deg,rgba(214,11,82,.25) 0%,#1a0810 100%)';
+    banner.style.borderColor = '#ffd60a';
+  } else {
+    title.textContent = '🏁 STADTRADELN 2026 beendet!';
+    sub.textContent   = 'Nürnberg hat sein Ziel erreicht 🎉';
+    document.getElementById('countdown-digits').style.display = 'none';
+    return;
+  }
+
+  const diff = target - now;
+  const d = Math.floor(diff / 86_400_000);
+  const h = Math.floor((diff % 86_400_000) / 3_600_000);
+  const m = Math.floor((diff % 3_600_000) / 60_000);
+  const s = Math.floor((diff % 60_000) / 1_000);
+
+  document.getElementById('cd-days').textContent  = String(d).padStart(2,'0');
+  document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
+  document.getElementById('cd-mins').textContent  = String(m).padStart(2,'0');
+  document.getElementById('cd-secs').textContent  = String(s).padStart(2,'0');
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+// ── Chart.js defaults ────────────────────────────────────────────
+Chart.defaults.color = '#888';
+Chart.defaults.font.family = "'Barlow', sans-serif";
+Chart.defaults.borderColor = '#2a2a2a';
+
+// ── Render functions ─────────────────────────────────────────────
+let charts = {};
+
+function destroyChart(id) {
+  if (charts[id]) { charts[id].destroy(); delete charts[id]; }
+}
+
+function renderCumulativeChart(byTeam, teamOrder) {
+  destroyChart('cumulative');
+  const ctx = document.getElementById('chart-cumulative').getContext('2d');
+
+  const datasets = teamOrder.map(id => {
+    const snaps = byTeam[id] || [];
+    const isHome = id === HOME_ID;
+    const color = TEAM_COLORS[id] || '#888';
+    return {
+      label: TEAM_NAMES[id] || id,
+      data: snaps.map(s => ({ x: new Date(s.timestamp), y: s.sum_km })),
+      borderColor: color,
+      backgroundColor: 'transparent',
+      pointRadius: isHome ? 3 : 2,
+      borderWidth: isHome ? 3 : 1.5,
+      borderDash: id !== HOME_ID && id !== 'muenchen' ? [4, 4] : [],
+      tension: 0.3,
+    };
+  });
+
+  charts['cumulative'] = new Chart(ctx, {
+    type: 'line',
+    data: { datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      scales: {
+        x: {
+          type: 'time',
+          time: { unit: 'day', tooltipFormat: 'dd.MM.yyyy HH:mm' },
+          grid: { color: '#1f1f1f' },
+        },
+        y: {
+          grid: { color: '#1f1f1f' },
+          ticks: { callback: v => fmt(v) + ' km' },
+        },
+      },
+      plugins: {
+        legend: { position: 'bottom', labels: { padding: 16, boxWidth: 12 } },
+        tooltip: {
+          callbacks: {
+            label: ctx => ` ${ctx.dataset.label}: ${fmt(ctx.parsed.y)} km`,
+          },
+        },
+      },
+    },
+  });
+}
+
+function renderDailyChart(byTeam) {
+  destroyChart('daily');
+  const ctx = document.getElementById('chart-daily').getContext('2d');
+  const snaps = byTeam[HOME_ID] || [];
+
+  // Compute daily delta
+  const daily = [];
+  for (let i = 1; i < snaps.length; i++) {
+    const delta = snaps[i].sum_km - snaps[i-1].sum_km;
+    if (delta >= 0) {
+      daily.push({ x: new Date(snaps[i].timestamp), y: delta });
+    }
+  }
+
+  // 3-day rolling average
+  const rolling = daily.map((d, i) => {
+    const window = daily.slice(Math.max(0, i - 2), i + 1);
+    return { x: d.x, y: window.reduce((a, b) => a + b.y, 0) / window.length };
+  });
+
+  charts['daily'] = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      datasets: [
+        {
+          type: 'bar',
+          label: 'km pro Intervall',
+          data: daily,
+          backgroundColor: 'rgba(214,11,82,.5)',
+          borderColor: '#D60B52',
+          borderWidth: 1,
+        },
+        {
+          type: 'line',
+          label: '3-Intervall Ø',
+          data: rolling,
+          borderColor: '#ffd60a',
+          backgroundColor: 'transparent',
+          pointRadius: 0,
+          borderWidth: 2,
+          tension: 0.4,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: { type: 'time', time: { unit: 'day', tooltipFormat: 'dd.MM.' }, grid: { color: '#1f1f1f' } },
+        y: { grid: { color: '#1f1f1f' }, ticks: { callback: v => fmt(v) + ' km' } },
+      },
+      plugins: { legend: { position: 'bottom', labels: { padding: 12, boxWidth: 12 } } },
+    },
+  });
+}
+
+function renderKmPerHeadChart(latest, teamOrder) {
+  destroyChart('kmperhead');
+  const ctx = document.getElementById('chart-kmperhead').getContext('2d');
+
+  const labels = teamOrder.filter(id => latest[id]).map(id => TEAM_NAMES[id]);
+  const values = teamOrder.filter(id => latest[id]).map(id => latest[id].km_per_head || 0);
+  const colors = teamOrder.filter(id => latest[id]).map(id => TEAM_COLORS[id] || '#888');
+
+  charts['kmperhead'] = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        data: values,
+        backgroundColor: colors.map(c => c + '80'),
+        borderColor: colors,
+        borderWidth: 2,
+      }],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      indexAxis: 'y',
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { color: '#1f1f1f' }, ticks: { callback: v => fmt(v) + ' km' } },
+        y: { grid: { color: '#1f1f1f' } },
+      },
+    },
+  });
+}
+
+// ── Render race table ────────────────────────────────────────────
+function renderRaceTable(latest, byTeam, homeRate) {
+  const teams = Object.entries(latest)
+    .map(([id, snap]) => ({ id, ...snap }))
+    .sort((a, b) => b.sum_km - a.sum_km);
+
+  const home = latest[HOME_ID];
+  const homeKm = home?.sum_km ?? 0;
+
+  const tbody = document.getElementById('race-tbody');
+  tbody.innerHTML = '';
+
+  teams.forEach((t, idx) => {
+    const rank = idx + 1;
+    const isHome = t.id === HOME_ID;
+    const isActive = ['nuernberg', 'muenchen'].includes(t.id);
+    const color = TEAM_COLORS[t.id] || '#888';
+
+    let rankClass = '';
+    if (rank === 1) rankClass = 'gold';
+    else if (rank === 2) rankClass = 'silver';
+    else if (rank === 3) rankClass = 'bronze';
+
+    const pct = t.sum_km > 0 ? Math.min(100, (homeKm / t.sum_km) * 100) : 100;
+    const eta = isHome ? null : estimateOvertake(homeKm, homeRate, t.sum_km);
+
+    let etaHtml = '';
+    if (isHome) {
+      etaHtml = '<span style="color:var(--dc-red);font-weight:700">← WIR 🏠</span>';
+    } else if (homeKm >= t.sum_km) {
+      etaHtml = '<span class="overtake-eta"><span class="eta-done">✓ Bereits überholt!</span></span>';
+    } else if (eta) {
+      etaHtml = `<span class="overtake-eta"><span class="eta-date">${fmtDate(eta)}</span></span>`;
+    } else {
+      etaHtml = '<span class="overtake-eta"><span class="eta-na">außer Reichweite</span></span>';
+    }
+
+    const progressClass = homeKm >= t.sum_km ? 'done' : '';
+
+    tbody.innerHTML += `
+      <tr class="${isHome ? 'home-row' : ''}">
+        <td><span class="rank-badge ${rankClass}">${rank}</span></td>
+        <td class="team-name-cell">
+          <span style="color:${color}">●</span>
+          ${TEAM_NAMES[t.id] || t.id}
+          ${isHome ? '<span class="home-badge">Home</span>' : ''}
+        </td>
+        <td><span class="status-pill ${isActive ? 'status-active' : 'status-finished'}">${isActive ? '● Live' : '✓ Final'}</span></td>
+        <td><strong>${fmt(t.sum_km)} km</strong></td>
+        <td>${fmt(t.riders)}</td>
+        <td>${fmt(t.km_per_head, 1)}</td>
+        <td>${fmt(t.rides)}</td>
+        <td>
+          <div style="display:flex;align-items:center;gap:.5rem">
+            <div class="progress-bar-wrap" style="width:80px">
+              <div class="progress-bar-fill ${progressClass}" style="width:${pct}%"></div>
+            </div>
+            <span style="font-size:.8rem;color:var(--dc-muted)">${fmt(pct, 0)}%</span>
+          </div>
+        </td>
+        <td>${etaHtml}</td>
+      </tr>`;
+  });
+
+  if (!teams.length) {
+    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;color:var(--dc-muted);padding:2rem">
+      Noch keine Daten — Event startet am 15. Juni 🚴</td></tr>`;
+  }
+}
+
+// ── Render KPI cards ─────────────────────────────────────────────
+function renderKPIs(latest, byTeam, homeRate) {
+  const home = latest[HOME_ID];
+  if (!home) return;
+
+  const homeSnaps = byTeam[HOME_ID] || [];
+  const eventDuration = (EVENT_END - EVENT_START) / 86_400_000;
+  const elapsed = Math.max(0, (Date.now() - EVENT_START) / 86_400_000);
+  const remaining = Math.max(0, eventDuration - elapsed);
+  const eventPct = Math.min(100, (elapsed / eventDuration) * 100);
+
+  // Total km
+  document.getElementById('kpi-total-km').textContent = fmt(home.sum_km) + ' km';
+  document.getElementById('kpi-riders').textContent = `${fmt(home.riders)} Radelnde · ${fmt(home.rides)} Fahrten`;
+
+  // Daily pace (km since 24h ago)
+  const now = Date.now();
+  const yesterday = homeSnaps.filter(s => new Date(s.timestamp) < new Date(now - 86_400_000));
+  const baseKm = yesterday.length ? yesterday[yesterday.length - 1].sum_km : 0;
+  const todayKm = home.sum_km - baseKm;
+  document.getElementById('kpi-daily-pace').textContent = fmt(todayKm) + ' km';
+
+  // km/head
+  document.getElementById('kpi-km-per-head').textContent = fmt(home.km_per_head, 1);
+  const sortedByKmHead = Object.entries(latest)
+    .sort((a, b) => b[1].km_per_head - a[1].km_per_head);
+  const headRank = sortedByKmHead.findIndex(([id]) => id === HOME_ID) + 1;
+  document.getElementById('kpi-km-per-head-rank').textContent = `Rang ${headRank} von ${sortedByKmHead.length}`;
+
+  // Projection
+  const projection = homeRate > 0 ? home.sum_km + homeRate * remaining : home.sum_km;
+  document.getElementById('kpi-projection').textContent = fmt(projection) + ' km';
+
+  // Next target (closest team above home in km)
+  const rivals = Object.entries(latest)
+    .filter(([id, s]) => id !== HOME_ID && s.sum_km > home.sum_km)
+    .sort((a, b) => a[1].sum_km - b[1].sum_km);
+  if (rivals.length) {
+    const [nextId, nextSnap] = rivals[0];
+    const eta = estimateOvertake(home.sum_km, homeRate, nextSnap.sum_km);
+    document.getElementById('kpi-next-target').textContent = TEAM_NAMES[nextId];
+    document.getElementById('kpi-next-target-eta').textContent =
+      eta ? `ETA: ${fmtDate(eta)}` : 'bei aktuellem Tempo nicht erreichbar';
+  } else {
+    document.getElementById('kpi-next-target').textContent = '🥇 #1!';
+    document.getElementById('kpi-next-target-eta').textContent = 'Wir führen das Rennen an!';
+  }
+
+  // Event progress
+  document.getElementById('kpi-event-pct').textContent = fmt(eventPct, 0) + '%';
+  document.getElementById('kpi-days-left').textContent = `${fmt(remaining, 1)} Tage übrig`;
+}
+
+// ── Render milestones ────────────────────────────────────────────
+function renderMilestones(latest, byTeam, homeRate) {
+  const home = latest[HOME_ID];
+  const feed = document.getElementById('milestone-feed');
+
+  const milestones = Object.entries(latest)
+    .filter(([id]) => id !== HOME_ID)
+    .sort((a, b) => a[1].sum_km - b[1].sum_km)
+    .map(([id, snap]) => {
+      const homeKm = home?.sum_km ?? 0;
+      const achieved = homeKm >= snap.sum_km;
+      const eta = home ? estimateOvertake(homeKm, homeRate, snap.sum_km) : null;
+      return { id, snap, achieved, eta };
+    });
+
+  if (!home && !milestones.some(m => m.achieved)) {
+    return; // keep default "no data" state
+  }
+
+  feed.innerHTML = '';
+  for (const m of milestones) {
+    const icon = m.achieved ? '🏆' : (m.eta ? '🎯' : '💤');
+    const etaStr = m.achieved
+      ? `Überholt! Wir liegen ${fmt((home?.sum_km ?? 0) - m.snap.sum_km)} km vorne`
+      : m.eta
+        ? `Geschätzte Überholung: ${fmtDate(m.eta)}`
+        : 'Außerhalb der Reichweite bei aktuellem Tempo';
+
+    feed.innerHTML += `
+      <div class="milestone-item ${m.achieved ? 'ms-achieved' : 'ms-future'}">
+        <span class="ms-icon">${icon}</span>
+        <div class="ms-text">
+          <strong>${m.achieved ? '✓' : ''} ${TEAM_NAMES[m.id]} überholt (${fmt(m.snap.sum_km)} km)</strong>
+          <small>${etaStr}</small>
+        </div>
+      </div>`;
+  }
+
+  if (!milestones.length) {
+    feed.innerHTML = `<div class="no-data-state">
+      <div class="big-icon">⏳</div>
+      <h2>Noch kein Meilenstein erreicht</h2>
+      <p>Das Rennen beginnt am 15. Juni – dann schlägt Nürnberg zu!</p>
+    </div>`;
+  }
+}
+
+// ── Main data loader ─────────────────────────────────────────────
+async function loadData() {
+  let data;
+  try {
+    const res = await fetch('./data/snapshots.json?nocache=' + Date.now());
+    data = await res.json();
+  } catch (e) {
+    console.error('Failed to load snapshots.json', e);
+    return;
+  }
+
+  const snapshots = data.snapshots || [];
+  const lastUpdated = data.last_updated;
+
+  if (lastUpdated) {
+    const d = new Date(lastUpdated);
+    const formatted = d.toLocaleString('de-DE', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' }) + ' Uhr';
+    document.getElementById('last-updated').textContent = formatted;
+    document.getElementById('footer-updated').textContent = formatted;
+  }
+
+  const latest  = latestPerTeam(snapshots);
+  const byTeam  = snapshotsByTeam(snapshots);
+  const teamOrder = ['nuernberg','muenchen','berlin','frankfurt','dortmund','stuttgart','hennigsdorf'];
+
+  // Compute home daily rate (km/day) from last ~7 days of snapshots
+  const homeSnaps = byTeam[HOME_ID] || [];
+  let homeRate = 0;
+  if (homeSnaps.length >= 2) {
+    const oldest = homeSnaps[Math.max(0, homeSnaps.length - 14)];
+    const newest = homeSnaps[homeSnaps.length - 1];
+    const daysDiff = (new Date(newest.timestamp) - new Date(oldest.timestamp)) / 86_400_000;
+    homeRate = daysDiff > 0 ? (newest.sum_km - oldest.sum_km) / daysDiff : 0;
+  }
+
+  renderRaceTable(latest, byTeam, homeRate);
+  renderKPIs(latest, byTeam, homeRate);
+  renderMilestones(latest, byTeam, homeRate);
+  renderCumulativeChart(byTeam, teamOrder);
+  renderDailyChart(byTeam);
+  renderKmPerHeadChart(latest, teamOrder);
+}
+
+loadData();
+</script>
+
+</body>
+</html>
