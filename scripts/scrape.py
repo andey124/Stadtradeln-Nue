@@ -131,6 +131,9 @@ def main():
     timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     new_entries = []
 
+    # Finished teams only need one snapshot — skip re-scraping if we have it.
+    existing_team_ids = {s["team_id"] for s in snapshots_data.get("snapshots", [])}
+
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         context = browser.new_context(
@@ -143,6 +146,11 @@ def main():
         page = context.new_page()
 
         for team in teams:
+            # Skip finished teams we already have data for — their km won't change.
+            if team.get("status") == "finished" and team["id"] in existing_team_ids:
+                print(f"\n[{team['city']}] ✓ Already captured (finished) — skipping")
+                continue
+
             print(f"\n[{team['city']}] Scraping {team['team_name']}...")
             result = scrape_team(page, team["city_slug"], team["team_name"])
 
@@ -168,8 +176,9 @@ def main():
         save_snapshots(snapshots_data)
         print(f"✓ Added {len(new_entries)} new entries at {timestamp}")
     else:
-        print("⚠ No new data collected")
-        sys.exit(1)
+        # No new entries is OK when the event hasn't started yet or all teams were skipped.
+        print("ℹ No new data collected (event may not have started, or all finished teams already captured)")
+        sys.exit(0)
 
 
 if __name__ == "__main__":

@@ -598,25 +598,54 @@ function destroyChart(id) {
   if (charts[id]) { charts[id].destroy(); delete charts[id]; }
 }
 
-function renderCumulativeChart(byTeam, teamOrder) {
+function renderCumulativeChart(byTeam, teamsConfig, teamOrder) {
   destroyChart('cumulative');
   const ctx = document.getElementById('chart-cumulative').getContext('2d');
 
-  const datasets = teamOrder.map(id => {
-    const snaps = byTeam[id] || [];
-    const isHome = id === HOME_ID;
-    const color = TEAM_COLORS[id] || '#888';
-    return {
-      label: TEAM_NAMES[id] || id,
-      data: snaps.map(s => ({ x: new Date(s.timestamp), y: s.sum_km })),
-      borderColor: color,
-      backgroundColor: 'transparent',
-      pointRadius: isHome ? 3 : 2,
-      borderWidth: isHome ? 3 : 1.5,
-      borderDash: id !== HOME_ID && id !== 'muenchen' ? [4, 4] : [],
-      tension: 0.3,
-    };
-  });
+  const datasets = [];
+
+  for (const id of teamOrder) {
+    const cfg      = teamsConfig[id] || {};
+    const snaps    = byTeam[id] || [];
+    const color    = TEAM_COLORS[id] || '#888';
+    const isHome   = id === HOME_ID;
+    const isFinished = cfg.status === 'finished';
+    const label    = TEAM_NAMES[id] || id;
+
+    if (isFinished) {
+      // Flat dashed reference line from event_start to event_end at final km.
+      // Requires at least one scraped snapshot for the final km value.
+      if (!snaps.length) continue;
+      const finalKm = snaps[snaps.length - 1].sum_km;
+      const xStart  = new Date(cfg.event_start + 'T00:00:00+02:00');
+      const xEnd    = new Date(cfg.event_end   + 'T23:59:00+02:00');
+
+      datasets.push({
+        label: `${label} (Final)`,
+        data: [{ x: xStart, y: finalKm }, { x: xEnd, y: finalKm }],
+        borderColor: color,
+        backgroundColor: 'transparent',
+        pointRadius: [0, 4],
+        pointStyle: ['rect', 'circle'],
+        borderWidth: 1.5,
+        borderDash: [6, 4],
+        tension: 0,
+      });
+    } else {
+      // Active team — regular time-series from scraped snapshots
+      if (!snaps.length) continue;
+      datasets.push({
+        label,
+        data: snaps.map(s => ({ x: new Date(s.timestamp), y: s.sum_km })),
+        borderColor: color,
+        backgroundColor: color + '18',
+        fill: isHome,
+        pointRadius: isHome ? 3 : 2,
+        borderWidth: isHome ? 3 : 2,
+        tension: 0.3,
+      });
+    }
+  }
 
   charts['cumulative'] = new Chart(ctx, {
     type: 'line',
@@ -628,7 +657,9 @@ function renderCumulativeChart(byTeam, teamOrder) {
       scales: {
         x: {
           type: 'time',
-          time: { unit: 'day', tooltipFormat: 'dd.MM.yyyy HH:mm' },
+          min: new Date('2026-05-01T00:00:00+02:00'),
+          max: EVENT_END,
+          time: { unit: 'day', tooltipFormat: 'dd.MM.yyyy' },
           grid: { color: '#1f1f1f' },
         },
         y: {
@@ -637,7 +668,22 @@ function renderCumulativeChart(byTeam, teamOrder) {
         },
       },
       plugins: {
-        legend: { position: 'bottom', labels: { padding: 16, boxWidth: 12 } },
+        legend: {
+          position: 'bottom',
+          labels: {
+            padding: 12,
+            boxWidth: 12,
+            generateLabels: chart => chart.data.datasets.map((ds, i) => ({
+              text: ds.label,
+              fillStyle: ds.borderColor,
+              strokeStyle: ds.borderColor,
+              lineWidth: ds.borderWidth,
+              lineDash: ds.borderDash || [],
+              hidden: !chart.isDatasetVisible(i),
+              datasetIndex: i,
+            })),
+          },
+        },
         tooltip: {
           callbacks: {
             label: ctx => ` ${ctx.dataset.label}: ${fmt(ctx.parsed.y)} km`,
@@ -908,16 +954,26 @@ function renderMilestones(latest, byTeam, homeRate) {
 
 // ── Main data loader ─────────────────────────────────────────────
 async function loadData() {
-  let data;
+  let data, teamsData;
   try {
-    const res = await fetch('./data/snapshots.json?nocache=' + Date.now());
-    data = await res.json();
+    const [snapRes, teamsRes] = await Promise.all([
+      fetch('./data/snapshots.json?nocache=' + Date.now()),
+      fetch('./data/teams.json?nocache=' + Date.now()),
+    ]);
+    data      = await snapRes.json();
+    teamsData = await teamsRes.json();
   } catch (e) {
-    console.error('Failed to load snapshots.json', e);
+    console.error('Failed to load data', e);
     return;
   }
 
-  const snapshots = data.snapshots || [];
+  // Build a quick-lookup map: team_id → config object
+  const teamsConfig = {};
+  for (const t of (teamsData.teams || [])) {
+    teamsConfig[t.id] = t;
+  }
+
+  const snapshots  = data.snapshots || [];
   const lastUpdated = data.last_updated;
 
   if (lastUpdated) {
@@ -927,11 +983,11 @@ async function loadData() {
     document.getElementById('footer-updated').textContent = formatted;
   }
 
-  const latest  = latestPerTeam(snapshots);
-  const byTeam  = snapshotsByTeam(snapshots);
+  const latest   = latestPerTeam(snapshots);
+  const byTeam   = snapshotsByTeam(snapshots);
   const teamOrder = ['nuernberg','muenchen','berlin','frankfurt','dortmund','stuttgart','hennigsdorf'];
 
-  // Compute home daily rate (km/day) from last ~7 days of snapshots
+  // Compute home daily rate (km/day) from recent snapshots
   const homeSnaps = byTeam[HOME_ID] || [];
   let homeRate = 0;
   if (homeSnaps.length >= 2) {
@@ -944,7 +1000,7 @@ async function loadData() {
   renderRaceTable(latest, byTeam, homeRate);
   renderKPIs(latest, byTeam, homeRate);
   renderMilestones(latest, byTeam, homeRate);
-  renderCumulativeChart(byTeam, teamOrder);
+  renderCumulativeChart(byTeam, teamsConfig, teamOrder);
   renderDailyChart(byTeam);
   renderKmPerHeadChart(latest, teamOrder);
 }
