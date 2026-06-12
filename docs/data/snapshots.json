@@ -15,9 +15,41 @@
       "rides": 0,
       "riders": 0,
       "km_per_head": 0.0
+    },
+    {
+      "timestamp": "2026-05-21T22:00:00Z",
+      "team_id": "frankfurt",
+      "sum_km": 361.0,
+      "rides": 35,
+      "riders": 2,
+      "km_per_head": 181.0
+    },
+    {
+      "timestamp": "2026-05-23T22:00:00Z",
+      "team_id": "dortmund",
+      "sum_km": 1587.0,
+      "rides": 200,
+      "riders": 10,
+      "km_per_head": 159.0
+    },
+    {
+      "timestamp": "2026-05-29T22:00:00Z",
+      "team_id": "hennigsdorf",
+      "sum_km": 663.0,
+      "rides": 48,
+      "riders": 3,
+      "km_per_head": 221.0
+    },
+    {
+      "timestamp": "2026-06-09T22:00:00Z",
+      "team_id": "berlin",
+      "sum_km": 1020.0,
+      "rides": 119,
+      "riders": 8,
+      "km_per_head": 127.0
     }
   ],
-  "last_updated": "2026-06-12T18:55:23Z",
+  "last_updated": "2026-06-12T19:14:38Z",
   "meta": {
     "description": "Time-series snapshots of STADTRADELN leaderboard data for all Dataciders teams",
     "fields": [
