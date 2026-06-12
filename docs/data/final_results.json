@@ -1,0 +1,55 @@
+{
+  "_readme": "Enter the final STADTRADELN results for finished locations here. The scraper reads this file and seeds snapshots.json — no scraping needed for finished teams. Use the event_end date as the reference date.",
+  "results": [
+    {
+      "team_id": "frankfurt",
+      "city": "Frankfurt/M",
+      "team_name": "Dataciders Frankfurt",
+      "event_end": "2026-05-21",
+      "sum_km": 361,
+      "riders": 2,
+      "rides": 35,
+      "km_per_head": 181
+    },
+    {
+      "team_id": "dortmund",
+      "city": "Dortmund",
+      "team_name": "Dataciders NRW",
+      "event_end": "2026-05-23",
+      "sum_km": 1587,
+      "riders": 10,
+      "rides": 200,
+      "km_per_head": 159
+    },
+    {
+      "team_id": "stuttgart",
+      "city": "Stuttgart",
+      "team_name": "Kein Team :(",
+      "event_end": "2026-05-24",
+      "sum_km": 0,
+      "riders": 0,
+      "rides": 0,
+      "km_per_head": 0.0
+    },
+    {
+      "team_id": "hennigsdorf",
+      "city": "Hennigsdorf",
+      "team_name": "Dataciders Hennigsdorf",
+      "event_end": "2026-05-29",
+      "sum_km": 663,
+      "riders": 3,
+      "rides": 48,
+      "km_per_head": 221
+    },
+    {
+      "team_id": "berlin",
+      "city": "Berlin",
+      "team_name": "Dataciders Berlin",
+      "event_end": "2026-06-09",
+      "sum_km": 1020,
+      "riders": 8,
+      "rides": 119,
+      "km_per_head": 127
+    }
+  ]
+}

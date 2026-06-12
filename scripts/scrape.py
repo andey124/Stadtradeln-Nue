@@ -1,27 +1,32 @@
 #!/usr/bin/env python3
 """
 STADTRADELN scraper for Dataciders teams.
-Uses Playwright to scrape leaderboard data for each configured team.
-Appends timestamped snapshots to data/snapshots.json.
+- Finished teams: seeded from docs/data/final_results.json (manual entry, no scraping)
+- Active teams:   scraped via Playwright 2x daily once their event has started
 """
 
 import json
-import os
 import sys
-from datetime import datetime, timezone
+from datetime import datetime, timezone, date
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeoutError
 
-REPO_ROOT = Path(__file__).parent.parent
-TEAMS_FILE = REPO_ROOT / "docs" / "data" / "teams.json"
-SNAPSHOTS_FILE = REPO_ROOT / "docs" / "data" / "snapshots.json"
+REPO_ROOT       = Path(__file__).parent.parent
+TEAMS_FILE      = REPO_ROOT / "docs" / "data" / "teams.json"
+SNAPSHOTS_FILE  = REPO_ROOT / "docs" / "data" / "snapshots.json"
+FINAL_FILE      = REPO_ROOT / "docs" / "data" / "final_results.json"
 
 STADTRADELN_BASE = "https://www.stadtradeln.de"
 
-# Mapping of german number formatting (1.234,5 -> 1234.5)
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
 def parse_german_number(s: str) -> float:
-    if not s or s.strip() == "-":
+    """Parse German-formatted numbers like '1.234,5' -> 1234.5"""
+    if not s or s.strip() in ("-", ""):
         return 0.0
     cleaned = s.strip().replace(".", "").replace(",", ".")
     try:
@@ -30,89 +35,7 @@ def parse_german_number(s: str) -> float:
         return 0.0
 
 
-def scrape_team(page, city_slug: str, team_name: str) -> dict | None:
-    """
-    Navigate to the city leaderboard and find the team row.
-    Returns a dict with sum_km, rides, riders, km_per_head or None if not found.
-    """
-    url = f"{STADTRADELN_BASE}/{city_slug}"
-    print(f"  → Visiting {url}")
-
-    try:
-        page.goto(url, timeout=30_000, wait_until="networkidle")
-    except PlaywrightTimeoutError:
-        print(f"  ✗ Timeout loading {url}")
-        return None
-
-    # Wait for the team table to appear and click "alle" to show all entries
-    try:
-        # Look for a "show all" selector (e.g. dropdown or button labelled "alle")
-        # The table is rendered by a Vue app — wait for it
-        page.wait_for_selector("table", timeout=15_000)
-    except PlaywrightTimeoutError:
-        print(f"  ✗ Table not found on {url}")
-        return None
-
-    # Try to expand the table to show all rows (select "alle" in per-page dropdown)
-    try:
-        # Common pattern: a <select> with option "alle" or a button
-        selects = page.query_selector_all("select")
-        for sel in selects:
-            options = sel.query_selector_all("option")
-            for opt in options:
-                text = (opt.text_content() or "").strip().lower()
-                if text in ("alle", "all"):
-                    sel.select_option(label=opt.text_content().strip())
-                    page.wait_for_load_state("networkidle", timeout=10_000)
-                    break
-    except Exception:
-        pass  # If no "alle" option, proceed with what's visible
-
-    # Search for the team row in the table
-    rows = page.query_selector_all("table tbody tr")
-    if not rows:
-        # Try alternate table structure
-        rows = page.query_selector_all("tr")
-
-    team_name_lower = team_name.lower()
-    for row in rows:
-        cells = row.query_selector_all("td")
-        if not cells:
-            continue
-        row_text = " ".join((c.text_content() or "").strip() for c in cells)
-        # Check if this row contains our team name (case-insensitive, partial match)
-        if team_name_lower in row_text.lower():
-            texts = [(c.text_content() or "").strip() for c in cells]
-            print(f"  ✓ Found row: {texts}")
-            # Typical columns: rank, team, sum_km, rides, riders, km_per_head
-            # Try to identify columns by position (usually: rank|team|km|rides|riders|km_head)
-            # We try to extract numeric values robustly
-            numbers = []
-            team_col_idx = -1
-            for i, t in enumerate(texts):
-                if team_name_lower in t.lower():
-                    team_col_idx = i
-                else:
-                    v = parse_german_number(t)
-                    if v > 0 or t == "0":
-                        numbers.append((i, v))
-
-            if len(numbers) >= 4:
-                # Usually ordered: km, rides, riders, km_per_head
-                return {
-                    "sum_km": numbers[0][1],
-                    "rides": int(numbers[1][1]),
-                    "riders": int(numbers[2][1]),
-                    "km_per_head": numbers[3][1],
-                }
-            elif len(numbers) >= 1:
-                return {"sum_km": numbers[0][1], "rides": 0, "riders": 0, "km_per_head": 0.0}
-
-    print(f"  ✗ Team '{team_name}' not found in leaderboard (may not have started yet)")
-    return None
-
-
-def load_data() -> tuple[list, dict]:
+def load_data() -> tuple:
     with open(TEAMS_FILE, encoding="utf-8") as f:
         teams_data = json.load(f)
     with open(SNAPSHOTS_FILE, encoding="utf-8") as f:
@@ -120,64 +43,210 @@ def load_data() -> tuple[list, dict]:
     return teams_data["teams"], snapshots_data
 
 
+def load_final_results() -> dict:
+    """Load manually entered final results keyed by team_id."""
+    if not FINAL_FILE.exists():
+        return {}
+    with open(FINAL_FILE, encoding="utf-8") as f:
+        data = json.load(f)
+    return {r["team_id"]: r for r in data.get("results", [])}
+
+
 def save_snapshots(snapshots_data: dict):
     with open(SNAPSHOTS_FILE, "w", encoding="utf-8") as f:
         json.dump(snapshots_data, f, ensure_ascii=False, indent=2)
-    print(f"\n✓ Saved {len(snapshots_data['snapshots'])} total snapshots")
+    print(f"Saved {len(snapshots_data['snapshots'])} total snapshots")
 
+
+# ---------------------------------------------------------------------------
+# Scraping (active teams only)
+# ---------------------------------------------------------------------------
+
+def try_show_all_rows(page) -> None:
+    """Try to expand the leaderboard table to show all teams."""
+    # Strategy 1: <select> with an "alle" option
+    try:
+        for sel in page.query_selector_all("select"):
+            for opt in sel.query_selector_all("option"):
+                if (opt.text_content() or "").strip().lower() in ("alle", "all"):
+                    sel.select_option(label=(opt.text_content() or "").strip())
+                    page.wait_for_timeout(2_000)
+                    return
+    except Exception:
+        pass
+
+    # Strategy 2: any clickable element whose text is "alle"
+    try:
+        for selector in ("button", "a", "span", "li", "[role='option']"):
+            for el in page.query_selector_all(selector):
+                if (el.text_content() or "").strip().lower() == "alle":
+                    el.click()
+                    page.wait_for_timeout(2_000)
+                    return
+    except Exception:
+        pass
+
+
+def detect_columns(page) -> dict:
+    """Read thead to map column keywords to 0-based indices."""
+    col_map = {"km": None, "rides": None, "riders": None, "km_per_head": None}
+    try:
+        header_cells = page.query_selector_all("table thead tr th") or \
+                       page.query_selector_all("table tr:first-child th")
+        headers = [(h.text_content() or "").strip().lower() for h in header_cells]
+        print(f"  Table headers: {headers}")
+        for i, h in enumerate(headers):
+            if "km" in h and "kopf" not in h and "head" not in h and col_map["km"] is None:
+                col_map["km"] = i
+            if ("fahrt" in h or "ride" in h) and col_map["rides"] is None:
+                col_map["rides"] = i
+            if ("radeln" in h or "rider" in h or "teilnehm" in h) and col_map["riders"] is None:
+                col_map["riders"] = i
+            if ("kopf" in h or "head" in h) and col_map["km_per_head"] is None:
+                col_map["km_per_head"] = i
+    except Exception as e:
+        print(f"  Could not read headers: {e}")
+    return col_map
+
+
+def extract_row_values(texts: list, col_map: dict):
+    """Extract values using header-mapped indices, or positional fallback."""
+    def cell(idx):
+        if idx is not None and idx < len(texts):
+            return parse_german_number(texts[idx])
+        return 0.0
+
+    if col_map["km"] is not None:
+        return {
+            "sum_km":      cell(col_map["km"]),
+            "rides":       int(cell(col_map["rides"])),
+            "riders":      int(cell(col_map["riders"])),
+            "km_per_head": cell(col_map["km_per_head"]),
+        }
+
+    # Fallback: skip index 0 (rank column) and use remaining numerics
+    numeric_vals = [parse_german_number(t) for t in texts
+                    if parse_german_number(t) > 0 or t.strip() == "0"]
+    if len(numeric_vals) >= 4:
+        return {
+            "sum_km":      numeric_vals[1],
+            "rides":       int(numeric_vals[2]),
+            "riders":      int(numeric_vals[3]),
+            "km_per_head": numeric_vals[4] if len(numeric_vals) > 4 else 0.0,
+        }
+    if len(numeric_vals) >= 2:
+        return {"sum_km": numeric_vals[1], "rides": 0, "riders": 0, "km_per_head": 0.0}
+    return None
+
+
+def scrape_team(page, city_slug: str, team_name: str):
+    url = f"{STADTRADELN_BASE}/{city_slug}"
+    print(f"  -> {url}")
+
+    try:
+        page.goto(url, timeout=30_000, wait_until="networkidle")
+    except PlaywrightTimeoutError:
+        print(f"  x Timeout")
+        return None
+
+    try:
+        page.wait_for_selector("table", timeout=20_000)
+    except PlaywrightTimeoutError:
+        print(f"  x Table not found")
+        return None
+
+    try_show_all_rows(page)
+    col_map = detect_columns(page)
+
+    rows = page.query_selector_all("table tbody tr") or page.query_selector_all("table tr")
+    for row in rows:
+        cells = row.query_selector_all("td")
+        if not cells:
+            continue
+        texts = [(c.text_content() or "").strip() for c in cells]
+        if team_name.lower() in " ".join(texts).lower():
+            print(f"  + Matched: {texts}")
+            return extract_row_values(texts, col_map)
+
+    print(f"  x '{team_name}' not found in visible rows")
+    return None
+
+
+# ---------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------
 
 def main():
     teams, snapshots_data = load_data()
+    final_results = load_final_results()
     timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    today = date.today()
     new_entries = []
 
-    # Finished teams only need one snapshot — skip re-scraping if we have it.
     existing_team_ids = {s["team_id"] for s in snapshots_data.get("snapshots", [])}
 
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        context = browser.new_context(
-            user_agent=(
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                "AppleWebKit/537.36 (KHTML, like Gecko) "
-                "Chrome/124.0.0.0 Safari/537.36"
-            )
-        )
-        page = context.new_page()
+    # --- Seed finished teams from manual file (once) ---
+    for team_id, result in final_results.items():
+        if team_id in existing_team_ids:
+            continue  # already seeded
+        if result.get("sum_km", 0) == 0:
+            print(f"[{result.get('city', team_id)}] sum_km is 0 in final_results.json - fill in the data first")
+            continue
+        # Use event_end date as the timestamp so charts position it correctly
+        ts = result["event_end"] + "T22:00:00Z"
+        entry = {
+            "timestamp":   ts,
+            "team_id":     team_id,
+            "sum_km":      float(result["sum_km"]),
+            "rides":       int(result.get("rides", 0)),
+            "riders":      int(result.get("riders", 0)),
+            "km_per_head": float(result.get("km_per_head", 0.0)),
+        }
+        new_entries.append(entry)
+        print(f"[{result.get('city', team_id)}] Seeded from manual data: {result['sum_km']} km")
 
-        for team in teams:
-            # Skip finished teams we already have data for — their km won't change.
-            if team.get("status") == "finished" and team["id"] in existing_team_ids:
-                print(f"\n[{team['city']}] ✓ Already captured (finished) — skipping")
-                continue
+    # --- Scrape active teams ---
+    active_teams = [t for t in teams if t.get("status") != "finished"]
 
-            print(f"\n[{team['city']}] Scraping {team['team_name']}...")
-            result = scrape_team(page, team["city_slug"], team["team_name"])
-
-            if result is not None:
-                entry = {
-                    "timestamp": timestamp,
-                    "team_id": team["id"],
-                    **result,
-                }
-                new_entries.append(entry)
-                print(
-                    f"  km={result['sum_km']}, rides={result['rides']}, "
-                    f"riders={result['riders']}, km/head={result['km_per_head']}"
+    if active_teams:
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True)
+            context = browser.new_context(
+                user_agent=(
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                    "Chrome/124.0.0.0 Safari/537.36"
                 )
-            else:
-                print(f"  → Skipped (no data)")
+            )
+            page = context.new_page()
 
-        browser.close()
+            for team in active_teams:
+                city = team["city"]
+                event_start = date.fromisoformat(team["event_start"])
+
+                if today < event_start:
+                    print(f"\n[{city}] Event starts {event_start} - skipping until then")
+                    continue
+
+                print(f"\n[{city}] Scraping '{team['team_name']}'...")
+                result = scrape_team(page, team["city_slug"], team["team_name"])
+
+                if result is not None:
+                    entry = {"timestamp": timestamp, "team_id": team["id"], **result}
+                    new_entries.append(entry)
+                    print(f"  km={result['sum_km']}, rides={result['rides']}, riders={result['riders']}")
+                else:
+                    print(f"  -> Not found yet")
+
+            browser.close()
 
     if new_entries:
         snapshots_data["snapshots"].extend(new_entries)
         snapshots_data["last_updated"] = timestamp
         save_snapshots(snapshots_data)
-        print(f"✓ Added {len(new_entries)} new entries at {timestamp}")
+        print(f"\nAdded {len(new_entries)} entries at {timestamp}")
     else:
-        # No new entries is OK when the event hasn't started yet or all teams were skipped.
-        print("ℹ No new data collected (event may not have started, or all finished teams already captured)")
+        print("\nNo new data - fill in final_results.json or wait for event start (June 15)")
         sys.exit(0)
 
 
