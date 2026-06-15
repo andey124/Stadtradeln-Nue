@@ -653,7 +653,7 @@ function renderCumulativeChart(byTeam, teamsConfig, teamOrder) {
       scales: {
         x: {
           type: 'time',
-          min: new Date('2026-05-01T00:00:00+02:00'),
+          min: new Date('2026-06-15T00:00:00+02:00'),
           max: EVENT_END,
           time: { unit: 'day', tooltipFormat: 'dd.MM.yyyy' },
           grid: { color: '#1f1f1f' },
@@ -709,21 +709,46 @@ function renderDailyChart(byTeam) {
     .sort((a, b) => a[0].localeCompare(b[0]))
     .map(([, snap]) => snap);
 
-  const daily = dailySnaps.map(snap => ({ x: new Date(snap.timestamp), y: snap.sum_km }));
+  // Compute daily delta between consecutive day-end snapshots.
+  // The first day has no prior reference, so its sum_km is the day's total.
+  const daily = [];
+  if (dailySnaps.length > 0) {
+    daily.push({ x: new Date(dailySnaps[0].timestamp), y: dailySnaps[0].sum_km });
+  }
+  for (let i = 1; i < dailySnaps.length; i++) {
+    const delta = dailySnaps[i].sum_km - dailySnaps[i-1].sum_km;
+    if (delta >= 0) {
+      daily.push({ x: new Date(dailySnaps[i].timestamp), y: delta });
+    }
+  }
+
+  // 3-day rolling average
+  const rolling = daily.map((d, i) => {
+    const window = daily.slice(Math.max(0, i - 2), i + 1);
+    return { x: d.x, y: window.reduce((a, b) => a + b.y, 0) / window.length };
+  });
 
   charts['daily'] = new Chart(ctx, {
-    type: 'line',
+    type: 'bar',
     data: {
       datasets: [
         {
-          label: 'Gesamt-km',
+          type: 'bar',
+          label: 'km pro Tag',
           data: daily,
-          backgroundColor: 'rgba(214,11,82,.2)',
+          backgroundColor: 'rgba(214,11,82,.5)',
           borderColor: '#D60B52',
+          borderWidth: 1,
+        },
+        {
+          type: 'line',
+          label: '3-Tage Ø',
+          data: rolling,
+          borderColor: '#ffd60a',
+          backgroundColor: 'transparent',
+          pointRadius: 0,
           borderWidth: 2,
-          fill: true,
-          tension: 0.3,
-          pointRadius: 4,
+          tension: 0.4,
         },
       ],
     },
