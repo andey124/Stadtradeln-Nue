@@ -13,7 +13,7 @@ Nürnberg tritt an gegen die bereits abgeschlossenen Ergebnisse der anderen Stan
 - 🏆 **Rennübersicht** mit Live-Rankings, Fortschrittsbalken und Überholungs-ETAs
 - 📈 **Tages-km & 3-Intervall-Durchschnitt** für Nürnberg
 - 👤 **km/Kopf-Vergleich** zwischen allen Teams
-- 🎯 **"Nächstes Opfer"** — welches Team überholen wir als nächstes?
+- 🎯 **"Nächstes Ziel"** — welches Team überholen wir als nächstes?
 - ⏳ **Countdown** bis Event-Start / Event-Ende
 - 🎉 **Meilenstein-Feed** — wann überholen wir wen?
 - 📉 **Prognose-Endstand** basierend auf aktuellem Tempo
