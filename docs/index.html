@@ -697,12 +697,24 @@ function renderDailyChart(byTeam) {
   const ctx = document.getElementById('chart-daily').getContext('2d');
   const snaps = byTeam[HOME_ID] || [];
 
-  // Compute daily delta
+  // Aggregate: keep only the last (highest sum_km) snapshot per calendar day
+  const dayMap = new Map();
+  for (const snap of snaps) {
+    const day = snap.timestamp.slice(0, 10); // 'YYYY-MM-DD'
+    if (!dayMap.has(day) || snap.sum_km >= dayMap.get(day).sum_km) {
+      dayMap.set(day, snap);
+    }
+  }
+  const dailySnaps = [...dayMap.entries()]
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .map(([, snap]) => snap);
+
+  // Compute daily delta between consecutive day-end snapshots
   const daily = [];
-  for (let i = 1; i < snaps.length; i++) {
-    const delta = snaps[i].sum_km - snaps[i-1].sum_km;
+  for (let i = 1; i < dailySnaps.length; i++) {
+    const delta = dailySnaps[i].sum_km - dailySnaps[i-1].sum_km;
     if (delta >= 0) {
-      daily.push({ x: new Date(snaps[i].timestamp), y: delta });
+      daily.push({ x: new Date(dailySnaps[i].timestamp), y: delta });
     }
   }
 
@@ -718,7 +730,7 @@ function renderDailyChart(byTeam) {
       datasets: [
         {
           type: 'bar',
-          label: 'km pro Intervall',
+          label: 'km pro Tag',
           data: daily,
           backgroundColor: 'rgba(214,11,82,.5)',
           borderColor: '#D60B52',
@@ -726,7 +738,7 @@ function renderDailyChart(byTeam) {
         },
         {
           type: 'line',
-          label: '3-Intervall Ø',
+          label: '3-Tage Ø',
           data: rolling,
           borderColor: '#ffd60a',
           backgroundColor: 'transparent',
