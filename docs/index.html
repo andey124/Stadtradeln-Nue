@@ -403,7 +403,7 @@
     <div class="kpi-card" style="--accent:var(--dc-green)">
       <div class="kpi-label">Prognose Endstand</div>
       <div class="kpi-value" id="kpi-projection">— km</div>
-      <div class="kpi-sub">bei aktuellem Tempo</div>
+      <div class="kpi-sub">bei erwartetem Tempo</div>
     </div>
     <div class="kpi-card" style="--accent:#a855f7">
       <div class="kpi-label">Nächstes Opfer 🎯</div>
@@ -950,16 +950,78 @@ function renderMilestones(latest, byTeam, homeRate) {
   }
 }
 
+// ── Forecast helpers ─────────────────────────────────────────────
+
+/**
+ * Compute prior daily km-rate statistics from completed teams.
+ * Returns { priorRate, p10, p90 } based on km/event-day per finished team.
+ * Teams with sum_km === 0 (no participation) are excluded.
+ */
+function computePriorStats(finalData, teamsConfig) {
+  const rates = [];
+  for (const r of (finalData.results || [])) {
+    if (r.sum_km <= 0) continue;
+    const cfg = teamsConfig[r.team_id];
+    if (!cfg) continue;
+    const days = Math.max(1, (new Date(cfg.event_end) - new Date(cfg.event_start)) / 86_400_000);
+    rates.push(r.sum_km / days);
+  }
+  if (!rates.length) return { priorRate: 50, p10: 0, p90: Infinity };
+
+  const sorted = [...rates].sort((a, b) => a - b);
+  const mid = Math.floor(sorted.length / 2);
+  const priorRate = sorted.length % 2 === 0
+    ? (sorted[mid - 1] + sorted[mid]) / 2
+    : sorted[mid];
+  // With few data points these are effectively min/max — intentionally conservative
+  const p10 = sorted[Math.max(0, Math.floor(sorted.length * 0.1))];
+  const p90 = sorted[Math.min(sorted.length - 1, Math.ceil(sorted.length * 0.9) - 1)];
+  return { priorRate, p10, p90 };
+}
+
+/**
+ * Bayesian-shrinkage stable daily rate.
+ *
+ * n        = effective observed days (span of home snapshots post event-start)
+ * k        = shrinkage constant (default 4): at n=k the blend is 50/50
+ * stableRate = (1 − weight) · priorRate + weight · liveRate
+ *              with weight = n / (n + k)
+ *
+ * Result is clamped to [p10, p90] of historical rates to prevent early-phase
+ * outliers from inflating the projection.
+ */
+function computeStableRate(homeSnaps, liveRate, priorRate, { k = 4, p10 = 0, p90 = Infinity } = {}) {
+  // Only count snapshots that fall within the event window
+  const postStart = homeSnaps.filter(s => new Date(s.timestamp) >= EVENT_START);
+  let n = 0;
+  if (postStart.length >= 2) {
+    const oldest = new Date(postStart[0].timestamp);
+    const newest = new Date(postStart[postStart.length - 1].timestamp);
+    n = (newest - oldest) / 86_400_000;
+  } else if (postStart.length === 1) {
+    n = 0.5; // treat a single snapshot as half a day observed
+  }
+
+  const weight = n / (n + k);
+  let stableRate = (1 - weight) * priorRate + weight * liveRate;
+
+  // Clamp to plausible range derived from historical teams
+  stableRate = Math.max(p10, Math.min(p90, stableRate));
+  return stableRate;
+}
+
 // ── Main data loader ─────────────────────────────────────────────
 async function loadData() {
-  let data, teamsData;
+  let data, teamsData, finalData;
   try {
-    const [snapRes, teamsRes] = await Promise.all([
+    const [snapRes, teamsRes, finalRes] = await Promise.all([
       fetch('./data/snapshots.json?nocache=' + Date.now()),
       fetch('./data/teams.json?nocache=' + Date.now()),
+      fetch('./data/final_results.json?nocache=' + Date.now()),
     ]);
-    data      = await snapRes.json();
-    teamsData = await teamsRes.json();
+    data       = await snapRes.json();
+    teamsData  = await teamsRes.json();
+    finalData  = await finalRes.json();
   } catch (e) {
     console.error('Failed to load data', e);
     return;
@@ -985,19 +1047,25 @@ async function loadData() {
   const byTeam   = snapshotsByTeam(snapshots);
   const teamOrder = ['nuernberg','muenchen','berlin','frankfurt','dortmund','hennigsdorf'];
 
-  // Compute home daily rate (km/day) from recent snapshots
+  // Compute raw live rate (km/day) from recent home snapshots
   const homeSnaps = byTeam[HOME_ID] || [];
-  let homeRate = 0;
+  let liveRate = 0;
   if (homeSnaps.length >= 2) {
     const oldest = homeSnaps[Math.max(0, homeSnaps.length - 14)];
     const newest = homeSnaps[homeSnaps.length - 1];
     const daysDiff = (new Date(newest.timestamp) - new Date(oldest.timestamp)) / 86_400_000;
-    homeRate = daysDiff > 0 ? (newest.sum_km - oldest.sum_km) / daysDiff : 0;
+    liveRate = daysDiff > 0 ? (newest.sum_km - oldest.sum_km) / daysDiff : 0;
   }
 
-  renderRaceTable(latest, byTeam, homeRate);
-  renderKPIs(latest, byTeam, homeRate);
-  renderMilestones(latest, byTeam, homeRate);
+  // Bayesian-shrinkage: blend historical prior with live rate
+  // — Early in the event (few snapshots) the prior dominates → no over-shoot
+  // — As live data accumulates the blend shifts toward the observed rate
+  const { priorRate, p10, p90 } = computePriorStats(finalData || {}, teamsConfig);
+  const stableRate = computeStableRate(homeSnaps, liveRate, priorRate, { k: 4, p10, p90 });
+
+  renderRaceTable(latest, byTeam, stableRate);
+  renderKPIs(latest, byTeam, stableRate);
+  renderMilestones(latest, byTeam, stableRate);
   renderCumulativeChart(byTeam, teamsConfig, teamOrder);
   renderDailyChart(byTeam);
   renderKmPerHeadChart(latest, teamOrder);
