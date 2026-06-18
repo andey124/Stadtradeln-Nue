@@ -300,6 +300,14 @@
       transition: width .5s ease;
     }
     .progress-bar-fill.done { background: var(--dc-green); }
+    .progress-pct {
+      font-size: .8rem;
+      color: var(--dc-muted);
+      white-space: nowrap;
+      min-width: 4.5rem;
+    }
+    .progress-pct.over-target { color: var(--dc-green); font-weight: 600; }
+    .progress-pct .lead-pct { color: var(--dc-muted); font-weight: 500; }
 
     /* ── Milestone feed ───────────────────────────────────────── */
     .milestone-feed {
@@ -418,7 +426,7 @@
   </div>
 
   <!-- ── Race leaderboard table ─────────────────────────────────── -->
-  <h2 class="section-heading">🏆 Dataciders Rennübersicht</h2>
+  <h2 class="section-heading">🏆 Dataciders Teamübersicht</h2>
   <div class="chart-card">
     <div class="race-table-wrap">
       <table id="race-table">
@@ -819,7 +827,12 @@ function renderRaceTable(latest, byTeam, homeRate) {
     else if (rank === 2) rankClass = 'silver';
     else if (rank === 3) rankClass = 'bronze';
 
-    const pct = t.sum_km > 0 ? Math.min(100, (homeKm / t.sum_km) * 100) : 100;
+    const pct = t.sum_km > 0 ? (homeKm / t.sum_km) * 100 : 100;
+    const barPct = Math.min(100, pct);
+    const pctLead = Math.max(0, pct - 100);
+    const pctText = pctLead > 0
+      ? `${fmt(pct, 0)}% <span class="lead-pct">+${fmt(pctLead, 0)}%</span>`
+      : `${fmt(pct, 0)}%`;
     const eta = isHome ? null : estimateOvertake(homeKm, homeRate, t.sum_km);
 
     let etaHtml = '';
@@ -851,9 +864,9 @@ function renderRaceTable(latest, byTeam, homeRate) {
         <td>
           <div style="display:flex;align-items:center;gap:.5rem">
             <div class="progress-bar-wrap" style="width:80px">
-              <div class="progress-bar-fill ${progressClass}" style="width:${pct}%"></div>
+              <div class="progress-bar-fill ${progressClass}" style="width:${barPct}%"></div>
             </div>
-            <span style="font-size:.8rem;color:var(--dc-muted)">${fmt(pct, 0)}%</span>
+            <span class="progress-pct ${pctLead > 0 ? 'over-target' : ''}">${pctText}</span>
           </div>
         </td>
         <td>${etaHtml}</td>
@@ -911,7 +924,7 @@ function renderKPIs(latest, byTeam, homeRate) {
       eta ? `ETA: ${fmtDate(eta)}` : 'bei aktuellem Tempo nicht erreichbar';
   } else {
     document.getElementById('kpi-next-target').textContent = '🥇 #1!';
-    document.getElementById('kpi-next-target-eta').textContent = 'Wir führen das Rennen an!';
+    document.getElementById('kpi-next-target-eta').textContent = 'Wir führen das Feld an!';
   }
 
   // Event progress
