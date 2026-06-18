@@ -307,7 +307,6 @@
       min-width: 4.5rem;
     }
     .progress-pct.over-target { color: var(--dc-green); font-weight: 600; }
-    .progress-pct .lead-pct { color: var(--dc-muted); font-weight: 500; }
 
     /* ── Milestone feed ───────────────────────────────────────── */
     .milestone-feed {
@@ -552,6 +551,11 @@ function estimateOvertake(homeKm, homeRate, targetKm) {
   const daysNeeded = (targetKm - homeKm) / homeRate;
   const eta = new Date(Date.now() + daysNeeded * 86_400_000);
   return eta > EVENT_END ? null : eta;
+}
+
+function findOvertakeDate(homeSnaps, targetKm, fallbackDate) {
+  const match = homeSnaps.find(s => s.sum_km >= targetKm);
+  return match ? new Date(match.timestamp) : fallbackDate;
 }
 
 // ── Countdown timer ──────────────────────────────────────────────
@@ -812,6 +816,7 @@ function renderRaceTable(latest, byTeam, homeRate) {
 
   const home = latest[HOME_ID];
   const homeKm = home?.sum_km ?? 0;
+  const homeSnaps = byTeam[HOME_ID] || [];
 
   const tbody = document.getElementById('race-tbody');
   tbody.innerHTML = '';
@@ -830,16 +835,14 @@ function renderRaceTable(latest, byTeam, homeRate) {
     const pct = t.sum_km > 0 ? (homeKm / t.sum_km) * 100 : 100;
     const barPct = Math.min(100, pct);
     const pctLead = Math.max(0, pct - 100);
-    const pctText = pctLead > 0
-      ? `${fmt(pct, 0)}% <span class="lead-pct">+${fmt(pctLead, 0)}%</span>`
-      : `${fmt(pct, 0)}%`;
     const eta = isHome ? null : estimateOvertake(homeKm, homeRate, t.sum_km);
 
     let etaHtml = '';
     if (isHome) {
       etaHtml = '<span style="color:var(--dc-red);font-weight:700">← WIR 🏠</span>';
     } else if (homeKm >= t.sum_km) {
-      etaHtml = '<span class="overtake-eta"><span class="eta-done">✓ Bereits überholt!</span></span>';
+      const overtakeDate = findOvertakeDate(homeSnaps, t.sum_km, new Date(home.timestamp));
+      etaHtml = `<span class="overtake-eta"><span class="eta-done">überholt am ${fmtDate(overtakeDate)} ✔️</span></span>`;
     } else if (eta) {
       etaHtml = `<span class="overtake-eta"><span class="eta-date">${fmtDate(eta)}</span></span>`;
     } else {
@@ -866,7 +869,7 @@ function renderRaceTable(latest, byTeam, homeRate) {
             <div class="progress-bar-wrap" style="width:80px">
               <div class="progress-bar-fill ${progressClass}" style="width:${barPct}%"></div>
             </div>
-            <span class="progress-pct ${pctLead > 0 ? 'over-target' : ''}">${pctText}</span>
+            <span class="progress-pct ${pctLead > 0 ? 'over-target' : ''}">${fmt(pct, 0)}%</span>
           </div>
         </td>
         <td>${etaHtml}</td>
