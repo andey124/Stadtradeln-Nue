@@ -511,9 +511,25 @@
       "rides": 22,
       "riders": 5,
       "km_per_head": 68.0
+    },
+    {
+      "timestamp": "2026-06-19T09:43:24Z",
+      "team_id": "nuernberg",
+      "sum_km": 2385.0,
+      "rides": 192,
+      "riders": 32,
+      "km_per_head": 75.0
+    },
+    {
+      "timestamp": "2026-06-19T09:43:24Z",
+      "team_id": "muenchen",
+      "sum_km": 428.0,
+      "rides": 23,
+      "riders": 5,
+      "km_per_head": 86.0
     }
   ],
-  "last_updated": "2026-06-18T20:57:39Z",
+  "last_updated": "2026-06-19T09:43:24Z",
   "meta": {
     "description": "Time-series snapshots of STADTRADELN leaderboard data for all Dataciders teams",
     "fields": [
