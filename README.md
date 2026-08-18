@@ -134,4 +134,17 @@ GitHub Pages serviert das statische Dashboard, das die JSON-Daten direkt lädt.
 
 ---
 
+## Lizenz
+
+Der eigene Quellcode und die Dokumentation stehen unter der
+[Apache License 2.0](LICENSE).
+
+Die Daten unter `docs/data/` sind davon ausdrücklich ausgenommen. Das gilt
+auch für sämtliche historischen Versionen dieser Dateien in der Git-Historie.
+Für diese Daten werden durch dieses Repository keine Nutzungsrechte eingeräumt.
+Namen, Logos und Marken Dritter, insbesondere STADTRADELN und Dataciders, sind
+ebenfalls nicht lizenziert. Details stehen im [DATA_NOTICE](DATA_NOTICE).
+
+---
+
 *Powered by [STADTRADELN](https://www.stadtradeln.de) · Built with ❤️ by Dataciders Nürnberg*

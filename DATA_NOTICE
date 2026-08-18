@@ -1,0 +1,16 @@
+Data and trademark notice
+=========================
+
+The Apache License 2.0 in this repository applies to the original source
+code and documentation only.
+
+It does not apply to data stored in docs/data/, including every current or
+historical revision of those files in the Git repository. No license to use,
+reproduce, modify, or redistribute that data is granted by this repository.
+Any rights to use data obtained from third-party sources must be secured from
+the respective rights holders.
+
+The Apache License 2.0 also grants no rights to third-party names, logos, or
+trademarks, including STADTRADELN and Dataciders.
+
+Copyright 2026 Andreas Porada
