@@ -463,9 +463,1641 @@
       "rides": 20,
       "riders": 5,
       "km_per_head": 53.0
+    },
+    {
+      "timestamp": "2026-06-18T13:18:51Z",
+      "team_id": "nuernberg",
+      "sum_km": 1783.0,
+      "rides": 155,
+      "riders": 30,
+      "km_per_head": 59.0
+    },
+    {
+      "timestamp": "2026-06-18T13:18:51Z",
+      "team_id": "muenchen",
+      "sum_km": 265.0,
+      "rides": 20,
+      "riders": 5,
+      "km_per_head": 53.0
+    },
+    {
+      "timestamp": "2026-06-18T17:02:57Z",
+      "team_id": "nuernberg",
+      "sum_km": 1813.0,
+      "rides": 157,
+      "riders": 30,
+      "km_per_head": 60.0
+    },
+    {
+      "timestamp": "2026-06-18T17:02:57Z",
+      "team_id": "muenchen",
+      "sum_km": 265.0,
+      "rides": 20,
+      "riders": 5,
+      "km_per_head": 53.0
+    },
+    {
+      "timestamp": "2026-06-18T20:57:39Z",
+      "team_id": "nuernberg",
+      "sum_km": 2088.0,
+      "rides": 171,
+      "riders": 30,
+      "km_per_head": 70.0
+    },
+    {
+      "timestamp": "2026-06-18T20:57:39Z",
+      "team_id": "muenchen",
+      "sum_km": 338.0,
+      "rides": 22,
+      "riders": 5,
+      "km_per_head": 68.0
+    },
+    {
+      "timestamp": "2026-06-19T09:43:24Z",
+      "team_id": "nuernberg",
+      "sum_km": 2385.0,
+      "rides": 192,
+      "riders": 32,
+      "km_per_head": 75.0
+    },
+    {
+      "timestamp": "2026-06-19T09:43:24Z",
+      "team_id": "muenchen",
+      "sum_km": 428.0,
+      "rides": 23,
+      "riders": 5,
+      "km_per_head": 86.0
+    },
+    {
+      "timestamp": "2026-06-19T13:18:32Z",
+      "team_id": "nuernberg",
+      "sum_km": 2521.0,
+      "rides": 216,
+      "riders": 35,
+      "km_per_head": 72.0
+    },
+    {
+      "timestamp": "2026-06-19T13:18:32Z",
+      "team_id": "muenchen",
+      "sum_km": 436.0,
+      "rides": 24,
+      "riders": 5,
+      "km_per_head": 87.0
+    },
+    {
+      "timestamp": "2026-06-19T16:47:59Z",
+      "team_id": "nuernberg",
+      "sum_km": 2558.0,
+      "rides": 219,
+      "riders": 35,
+      "km_per_head": 73.0
+    },
+    {
+      "timestamp": "2026-06-19T16:47:59Z",
+      "team_id": "muenchen",
+      "sum_km": 443.0,
+      "rides": 25,
+      "riders": 5,
+      "km_per_head": 89.0
+    },
+    {
+      "timestamp": "2026-06-19T20:38:14Z",
+      "team_id": "nuernberg",
+      "sum_km": 2666.0,
+      "rides": 227,
+      "riders": 35,
+      "km_per_head": 76.0
+    },
+    {
+      "timestamp": "2026-06-19T20:38:14Z",
+      "team_id": "muenchen",
+      "sum_km": 443.0,
+      "rides": 25,
+      "riders": 5,
+      "km_per_head": 89.0
+    },
+    {
+      "timestamp": "2026-06-20T09:12:51Z",
+      "team_id": "nuernberg",
+      "sum_km": 2754.0,
+      "rides": 241,
+      "riders": 35,
+      "km_per_head": 79.0
+    },
+    {
+      "timestamp": "2026-06-20T09:12:51Z",
+      "team_id": "muenchen",
+      "sum_km": 443.0,
+      "rides": 25,
+      "riders": 5,
+      "km_per_head": 89.0
+    },
+    {
+      "timestamp": "2026-06-20T12:44:38Z",
+      "team_id": "nuernberg",
+      "sum_km": 2798.0,
+      "rides": 245,
+      "riders": 36,
+      "km_per_head": 78.0
+    },
+    {
+      "timestamp": "2026-06-20T12:44:38Z",
+      "team_id": "muenchen",
+      "sum_km": 449.0,
+      "rides": 28,
+      "riders": 5,
+      "km_per_head": 90.0
+    },
+    {
+      "timestamp": "2026-06-20T16:30:10Z",
+      "team_id": "nuernberg",
+      "sum_km": 2887.0,
+      "rides": 250,
+      "riders": 36,
+      "km_per_head": 80.0
+    },
+    {
+      "timestamp": "2026-06-20T16:30:10Z",
+      "team_id": "muenchen",
+      "sum_km": 454.0,
+      "rides": 30,
+      "riders": 5,
+      "km_per_head": 91.0
+    },
+    {
+      "timestamp": "2026-06-20T20:35:31Z",
+      "team_id": "nuernberg",
+      "sum_km": 3041.0,
+      "rides": 254,
+      "riders": 36,
+      "km_per_head": 84.0
+    },
+    {
+      "timestamp": "2026-06-20T20:35:31Z",
+      "team_id": "muenchen",
+      "sum_km": 754.0,
+      "rides": 31,
+      "riders": 5,
+      "km_per_head": 151.0
+    },
+    {
+      "timestamp": "2026-06-21T09:25:23Z",
+      "team_id": "nuernberg",
+      "sum_km": 3093.0,
+      "rides": 258,
+      "riders": 36,
+      "km_per_head": 86.0
+    },
+    {
+      "timestamp": "2026-06-21T09:25:23Z",
+      "team_id": "muenchen",
+      "sum_km": 754.0,
+      "rides": 31,
+      "riders": 5,
+      "km_per_head": 151.0
+    },
+    {
+      "timestamp": "2026-06-21T12:47:25Z",
+      "team_id": "nuernberg",
+      "sum_km": 3115.0,
+      "rides": 261,
+      "riders": 36,
+      "km_per_head": 87.0
+    },
+    {
+      "timestamp": "2026-06-21T12:47:25Z",
+      "team_id": "muenchen",
+      "sum_km": 762.0,
+      "rides": 32,
+      "riders": 5,
+      "km_per_head": 152.0
+    },
+    {
+      "timestamp": "2026-06-21T16:31:50Z",
+      "team_id": "nuernberg",
+      "sum_km": 3123.0,
+      "rides": 262,
+      "riders": 36,
+      "km_per_head": 87.0
+    },
+    {
+      "timestamp": "2026-06-21T16:31:50Z",
+      "team_id": "muenchen",
+      "sum_km": 762.0,
+      "rides": 32,
+      "riders": 5,
+      "km_per_head": 152.0
+    },
+    {
+      "timestamp": "2026-06-21T20:39:50Z",
+      "team_id": "nuernberg",
+      "sum_km": 3397.0,
+      "rides": 270,
+      "riders": 36,
+      "km_per_head": 94.0
+    },
+    {
+      "timestamp": "2026-06-21T20:39:50Z",
+      "team_id": "muenchen",
+      "sum_km": 762.0,
+      "rides": 32,
+      "riders": 5,
+      "km_per_head": 152.0
+    },
+    {
+      "timestamp": "2026-06-22T09:35:52Z",
+      "team_id": "nuernberg",
+      "sum_km": 4072.0,
+      "rides": 319,
+      "riders": 38,
+      "km_per_head": 107.0
+    },
+    {
+      "timestamp": "2026-06-22T09:35:52Z",
+      "team_id": "muenchen",
+      "sum_km": 807.0,
+      "rides": 40,
+      "riders": 6,
+      "km_per_head": 135.0
+    },
+    {
+      "timestamp": "2026-06-22T10:10:59Z",
+      "team_id": "nuernberg",
+      "sum_km": 4072.0,
+      "rides": 319,
+      "riders": 38,
+      "km_per_head": 107.0
+    },
+    {
+      "timestamp": "2026-06-22T10:10:59Z",
+      "team_id": "muenchen",
+      "sum_km": 807.0,
+      "rides": 40,
+      "riders": 6,
+      "km_per_head": 135.0
+    },
+    {
+      "timestamp": "2026-06-22T13:59:44Z",
+      "team_id": "nuernberg",
+      "sum_km": 4090.0,
+      "rides": 320,
+      "riders": 38,
+      "km_per_head": 108.0
+    },
+    {
+      "timestamp": "2026-06-22T13:59:44Z",
+      "team_id": "muenchen",
+      "sum_km": 807.0,
+      "rides": 40,
+      "riders": 6,
+      "km_per_head": 135.0
+    },
+    {
+      "timestamp": "2026-06-22T17:31:49Z",
+      "team_id": "nuernberg",
+      "sum_km": 4109.0,
+      "rides": 323,
+      "riders": 38,
+      "km_per_head": 108.0
+    },
+    {
+      "timestamp": "2026-06-22T17:31:49Z",
+      "team_id": "muenchen",
+      "sum_km": 811.0,
+      "rides": 41,
+      "riders": 6,
+      "km_per_head": 135.0
+    },
+    {
+      "timestamp": "2026-06-22T21:07:14Z",
+      "team_id": "nuernberg",
+      "sum_km": 4206.0,
+      "rides": 328,
+      "riders": 38,
+      "km_per_head": 111.0
+    },
+    {
+      "timestamp": "2026-06-22T21:07:14Z",
+      "team_id": "muenchen",
+      "sum_km": 813.0,
+      "rides": 42,
+      "riders": 6,
+      "km_per_head": 135.0
+    },
+    {
+      "timestamp": "2026-06-23T06:24:20Z",
+      "team_id": "nuernberg",
+      "sum_km": 4397.0,
+      "rides": 343,
+      "riders": 38,
+      "km_per_head": 116.0
+    },
+    {
+      "timestamp": "2026-06-23T06:24:20Z",
+      "team_id": "muenchen",
+      "sum_km": 813.0,
+      "rides": 42,
+      "riders": 6,
+      "km_per_head": 135.0
+    },
+    {
+      "timestamp": "2026-06-23T09:19:37Z",
+      "team_id": "nuernberg",
+      "sum_km": 4614.0,
+      "rides": 355,
+      "riders": 39,
+      "km_per_head": 118.0
+    },
+    {
+      "timestamp": "2026-06-23T09:19:37Z",
+      "team_id": "muenchen",
+      "sum_km": 888.0,
+      "rides": 50,
+      "riders": 6,
+      "km_per_head": 148.0
+    },
+    {
+      "timestamp": "2026-06-23T13:06:15Z",
+      "team_id": "nuernberg",
+      "sum_km": 4636.0,
+      "rides": 363,
+      "riders": 39,
+      "km_per_head": 119.0
+    },
+    {
+      "timestamp": "2026-06-23T13:06:15Z",
+      "team_id": "muenchen",
+      "sum_km": 888.0,
+      "rides": 50,
+      "riders": 6,
+      "km_per_head": 148.0
+    },
+    {
+      "timestamp": "2026-06-23T16:47:55Z",
+      "team_id": "nuernberg",
+      "sum_km": 4695.0,
+      "rides": 381,
+      "riders": 39,
+      "km_per_head": 120.0
+    },
+    {
+      "timestamp": "2026-06-23T16:47:55Z",
+      "team_id": "muenchen",
+      "sum_km": 889.0,
+      "rides": 51,
+      "riders": 6,
+      "km_per_head": 148.0
+    },
+    {
+      "timestamp": "2026-06-23T20:51:38Z",
+      "team_id": "nuernberg",
+      "sum_km": 4740.0,
+      "rides": 386,
+      "riders": 39,
+      "km_per_head": 122.0
+    },
+    {
+      "timestamp": "2026-06-23T20:51:38Z",
+      "team_id": "muenchen",
+      "sum_km": 939.0,
+      "rides": 52,
+      "riders": 6,
+      "km_per_head": 157.0
+    },
+    {
+      "timestamp": "2026-06-24T09:17:46Z",
+      "team_id": "nuernberg",
+      "sum_km": 4971.0,
+      "rides": 424,
+      "riders": 40,
+      "km_per_head": 124.0
+    },
+    {
+      "timestamp": "2026-06-24T09:17:46Z",
+      "team_id": "muenchen",
+      "sum_km": 939.0,
+      "rides": 52,
+      "riders": 6,
+      "km_per_head": 157.0
+    },
+    {
+      "timestamp": "2026-06-24T12:52:18Z",
+      "team_id": "nuernberg",
+      "sum_km": 5083.0,
+      "rides": 432,
+      "riders": 41,
+      "km_per_head": 124.0
+    },
+    {
+      "timestamp": "2026-06-24T12:52:18Z",
+      "team_id": "muenchen",
+      "sum_km": 939.0,
+      "rides": 52,
+      "riders": 6,
+      "km_per_head": 157.0
+    },
+    {
+      "timestamp": "2026-06-24T16:42:42Z",
+      "team_id": "nuernberg",
+      "sum_km": 5111.0,
+      "rides": 437,
+      "riders": 41,
+      "km_per_head": 125.0
+    },
+    {
+      "timestamp": "2026-06-24T16:42:42Z",
+      "team_id": "muenchen",
+      "sum_km": 947.0,
+      "rides": 54,
+      "riders": 6,
+      "km_per_head": 158.0
+    },
+    {
+      "timestamp": "2026-06-24T20:41:08Z",
+      "team_id": "nuernberg",
+      "sum_km": 5308.0,
+      "rides": 453,
+      "riders": 41,
+      "km_per_head": 129.0
+    },
+    {
+      "timestamp": "2026-06-24T20:41:08Z",
+      "team_id": "muenchen",
+      "sum_km": 947.0,
+      "rides": 54,
+      "riders": 6,
+      "km_per_head": 158.0
+    },
+    {
+      "timestamp": "2026-06-25T08:44:02Z",
+      "team_id": "nuernberg",
+      "sum_km": 5697.0,
+      "rides": 481,
+      "riders": 41,
+      "km_per_head": 139.0
+    },
+    {
+      "timestamp": "2026-06-25T08:44:02Z",
+      "team_id": "muenchen",
+      "sum_km": 953.0,
+      "rides": 55,
+      "riders": 6,
+      "km_per_head": 159.0
+    },
+    {
+      "timestamp": "2026-06-25T09:16:19Z",
+      "team_id": "nuernberg",
+      "sum_km": 5855.0,
+      "rides": 486,
+      "riders": 41,
+      "km_per_head": 143.0
+    },
+    {
+      "timestamp": "2026-06-25T09:16:19Z",
+      "team_id": "muenchen",
+      "sum_km": 986.0,
+      "rides": 59,
+      "riders": 6,
+      "km_per_head": 164.0
+    },
+    {
+      "timestamp": "2026-06-25T12:54:28Z",
+      "team_id": "nuernberg",
+      "sum_km": 5987.0,
+      "rides": 496,
+      "riders": 41,
+      "km_per_head": 146.0
+    },
+    {
+      "timestamp": "2026-06-25T12:54:28Z",
+      "team_id": "muenchen",
+      "sum_km": 986.0,
+      "rides": 59,
+      "riders": 6,
+      "km_per_head": 164.0
+    },
+    {
+      "timestamp": "2026-06-25T16:45:36Z",
+      "team_id": "nuernberg",
+      "sum_km": 6092.0,
+      "rides": 503,
+      "riders": 41,
+      "km_per_head": 149.0
+    },
+    {
+      "timestamp": "2026-06-25T16:45:36Z",
+      "team_id": "muenchen",
+      "sum_km": 998.0,
+      "rides": 61,
+      "riders": 6,
+      "km_per_head": 166.0
+    },
+    {
+      "timestamp": "2026-06-25T20:46:35Z",
+      "team_id": "nuernberg",
+      "sum_km": 6142.0,
+      "rides": 510,
+      "riders": 41,
+      "km_per_head": 150.0
+    },
+    {
+      "timestamp": "2026-06-25T20:46:35Z",
+      "team_id": "muenchen",
+      "sum_km": 998.0,
+      "rides": 61,
+      "riders": 6,
+      "km_per_head": 166.0
+    },
+    {
+      "timestamp": "2026-06-26T09:16:43Z",
+      "team_id": "nuernberg",
+      "sum_km": 6228.0,
+      "rides": 522,
+      "riders": 41,
+      "km_per_head": 152.0
+    },
+    {
+      "timestamp": "2026-06-26T09:16:43Z",
+      "team_id": "muenchen",
+      "sum_km": 1092.0,
+      "rides": 63,
+      "riders": 6,
+      "km_per_head": 182.0
+    },
+    {
+      "timestamp": "2026-06-26T12:51:18Z",
+      "team_id": "nuernberg",
+      "sum_km": 6261.0,
+      "rides": 526,
+      "riders": 41,
+      "km_per_head": 153.0
+    },
+    {
+      "timestamp": "2026-06-26T12:51:18Z",
+      "team_id": "muenchen",
+      "sum_km": 1092.0,
+      "rides": 63,
+      "riders": 6,
+      "km_per_head": 182.0
+    },
+    {
+      "timestamp": "2026-06-26T16:38:30Z",
+      "team_id": "nuernberg",
+      "sum_km": 6314.0,
+      "rides": 538,
+      "riders": 41,
+      "km_per_head": 154.0
+    },
+    {
+      "timestamp": "2026-06-26T16:38:30Z",
+      "team_id": "muenchen",
+      "sum_km": 1159.0,
+      "rides": 67,
+      "riders": 6,
+      "km_per_head": 193.0
+    },
+    {
+      "timestamp": "2026-06-26T20:40:53Z",
+      "team_id": "nuernberg",
+      "sum_km": 6345.0,
+      "rides": 543,
+      "riders": 41,
+      "km_per_head": 155.0
+    },
+    {
+      "timestamp": "2026-06-26T20:40:53Z",
+      "team_id": "muenchen",
+      "sum_km": 1159.0,
+      "rides": 67,
+      "riders": 6,
+      "km_per_head": 193.0
+    },
+    {
+      "timestamp": "2026-06-27T09:03:38Z",
+      "team_id": "nuernberg",
+      "sum_km": 6522.0,
+      "rides": 554,
+      "riders": 41,
+      "km_per_head": 159.0
+    },
+    {
+      "timestamp": "2026-06-27T09:03:38Z",
+      "team_id": "muenchen",
+      "sum_km": 1159.0,
+      "rides": 67,
+      "riders": 6,
+      "km_per_head": 193.0
+    },
+    {
+      "timestamp": "2026-06-27T12:34:39Z",
+      "team_id": "nuernberg",
+      "sum_km": 6597.0,
+      "rides": 558,
+      "riders": 41,
+      "km_per_head": 161.0
+    },
+    {
+      "timestamp": "2026-06-27T12:34:39Z",
+      "team_id": "muenchen",
+      "sum_km": 1159.0,
+      "rides": 67,
+      "riders": 6,
+      "km_per_head": 193.0
+    },
+    {
+      "timestamp": "2026-06-27T16:23:07Z",
+      "team_id": "nuernberg",
+      "sum_km": 6673.0,
+      "rides": 561,
+      "riders": 41,
+      "km_per_head": 163.0
+    },
+    {
+      "timestamp": "2026-06-27T16:23:07Z",
+      "team_id": "muenchen",
+      "sum_km": 1262.0,
+      "rides": 68,
+      "riders": 6,
+      "km_per_head": 210.0
+    },
+    {
+      "timestamp": "2026-06-27T20:30:52Z",
+      "team_id": "nuernberg",
+      "sum_km": 6673.0,
+      "rides": 561,
+      "riders": 41,
+      "km_per_head": 163.0
+    },
+    {
+      "timestamp": "2026-06-27T20:30:52Z",
+      "team_id": "muenchen",
+      "sum_km": 1269.0,
+      "rides": 69,
+      "riders": 6,
+      "km_per_head": 212.0
+    },
+    {
+      "timestamp": "2026-06-28T09:11:55Z",
+      "team_id": "nuernberg",
+      "sum_km": 6713.0,
+      "rides": 567,
+      "riders": 41,
+      "km_per_head": 164.0
+    },
+    {
+      "timestamp": "2026-06-28T09:11:55Z",
+      "team_id": "muenchen",
+      "sum_km": 1275.0,
+      "rides": 70,
+      "riders": 6,
+      "km_per_head": 212.0
+    },
+    {
+      "timestamp": "2026-06-28T12:35:36Z",
+      "team_id": "nuernberg",
+      "sum_km": 6811.0,
+      "rides": 576,
+      "riders": 41,
+      "km_per_head": 166.0
+    },
+    {
+      "timestamp": "2026-06-28T12:35:36Z",
+      "team_id": "muenchen",
+      "sum_km": 1389.0,
+      "rides": 71,
+      "riders": 6,
+      "km_per_head": 231.0
+    },
+    {
+      "timestamp": "2026-06-28T16:25:40Z",
+      "team_id": "nuernberg",
+      "sum_km": 6906.0,
+      "rides": 578,
+      "riders": 41,
+      "km_per_head": 168.0
+    },
+    {
+      "timestamp": "2026-06-28T16:25:40Z",
+      "team_id": "muenchen",
+      "sum_km": 1389.0,
+      "rides": 71,
+      "riders": 6,
+      "km_per_head": 231.0
+    },
+    {
+      "timestamp": "2026-06-28T20:33:27Z",
+      "team_id": "nuernberg",
+      "sum_km": 6950.0,
+      "rides": 582,
+      "riders": 41,
+      "km_per_head": 170.0
+    },
+    {
+      "timestamp": "2026-06-28T20:33:27Z",
+      "team_id": "muenchen",
+      "sum_km": 1431.0,
+      "rides": 76,
+      "riders": 6,
+      "km_per_head": 239.0
+    },
+    {
+      "timestamp": "2026-06-29T09:46:19Z",
+      "team_id": "nuernberg",
+      "sum_km": 7458.0,
+      "rides": 616,
+      "riders": 41,
+      "km_per_head": 182.0
+    },
+    {
+      "timestamp": "2026-06-29T09:46:19Z",
+      "team_id": "muenchen",
+      "sum_km": 1431.0,
+      "rides": 76,
+      "riders": 6,
+      "km_per_head": 239.0
+    },
+    {
+      "timestamp": "2026-06-29T13:36:50Z",
+      "team_id": "nuernberg",
+      "sum_km": 7477.0,
+      "rides": 621,
+      "riders": 41,
+      "km_per_head": 182.0
+    },
+    {
+      "timestamp": "2026-06-29T13:36:50Z",
+      "team_id": "muenchen",
+      "sum_km": 1431.0,
+      "rides": 76,
+      "riders": 6,
+      "km_per_head": 239.0
+    },
+    {
+      "timestamp": "2026-06-29T16:59:27Z",
+      "team_id": "nuernberg",
+      "sum_km": 7584.0,
+      "rides": 637,
+      "riders": 41,
+      "km_per_head": 185.0
+    },
+    {
+      "timestamp": "2026-06-29T16:59:27Z",
+      "team_id": "muenchen",
+      "sum_km": 1431.0,
+      "rides": 76,
+      "riders": 6,
+      "km_per_head": 239.0
+    },
+    {
+      "timestamp": "2026-06-29T20:42:59Z",
+      "team_id": "nuernberg",
+      "sum_km": 7632.0,
+      "rides": 640,
+      "riders": 41,
+      "km_per_head": 186.0
+    },
+    {
+      "timestamp": "2026-06-29T20:42:59Z",
+      "team_id": "muenchen",
+      "sum_km": 1431.0,
+      "rides": 76,
+      "riders": 6,
+      "km_per_head": 239.0
+    },
+    {
+      "timestamp": "2026-06-30T09:17:51Z",
+      "team_id": "nuernberg",
+      "sum_km": 7815.0,
+      "rides": 658,
+      "riders": 41,
+      "km_per_head": 191.0
+    },
+    {
+      "timestamp": "2026-06-30T09:17:51Z",
+      "team_id": "muenchen",
+      "sum_km": 1474.0,
+      "rides": 91,
+      "riders": 6,
+      "km_per_head": 246.0
+    },
+    {
+      "timestamp": "2026-06-30T12:48:38Z",
+      "team_id": "nuernberg",
+      "sum_km": 7846.0,
+      "rides": 668,
+      "riders": 41,
+      "km_per_head": 191.0
+    },
+    {
+      "timestamp": "2026-06-30T12:48:38Z",
+      "team_id": "muenchen",
+      "sum_km": 1474.0,
+      "rides": 91,
+      "riders": 6,
+      "km_per_head": 246.0
+    },
+    {
+      "timestamp": "2026-06-30T16:42:35Z",
+      "team_id": "nuernberg",
+      "sum_km": 7947.0,
+      "rides": 683,
+      "riders": 42,
+      "km_per_head": 189.0
+    },
+    {
+      "timestamp": "2026-06-30T16:42:35Z",
+      "team_id": "muenchen",
+      "sum_km": 1481.0,
+      "rides": 92,
+      "riders": 6,
+      "km_per_head": 247.0
+    },
+    {
+      "timestamp": "2026-06-30T20:45:37Z",
+      "team_id": "nuernberg",
+      "sum_km": 8149.0,
+      "rides": 688,
+      "riders": 42,
+      "km_per_head": 194.0
+    },
+    {
+      "timestamp": "2026-06-30T20:45:37Z",
+      "team_id": "muenchen",
+      "sum_km": 1481.0,
+      "rides": 92,
+      "riders": 6,
+      "km_per_head": 247.0
+    },
+    {
+      "timestamp": "2026-07-01T09:19:08Z",
+      "team_id": "nuernberg",
+      "sum_km": 8479.0,
+      "rides": 736,
+      "riders": 43,
+      "km_per_head": 197.0
+    },
+    {
+      "timestamp": "2026-07-01T09:19:08Z",
+      "team_id": "muenchen",
+      "sum_km": 1570.0,
+      "rides": 97,
+      "riders": 6,
+      "km_per_head": 262.0
+    },
+    {
+      "timestamp": "2026-07-01T13:03:48Z",
+      "team_id": "nuernberg",
+      "sum_km": 8599.0,
+      "rides": 748,
+      "riders": 44,
+      "km_per_head": 195.0
+    },
+    {
+      "timestamp": "2026-07-01T13:03:48Z",
+      "team_id": "muenchen",
+      "sum_km": 1570.0,
+      "rides": 97,
+      "riders": 6,
+      "km_per_head": 262.0
+    },
+    {
+      "timestamp": "2026-07-01T16:46:39Z",
+      "team_id": "nuernberg",
+      "sum_km": 8617.0,
+      "rides": 750,
+      "riders": 44,
+      "km_per_head": 196.0
+    },
+    {
+      "timestamp": "2026-07-01T16:46:39Z",
+      "team_id": "muenchen",
+      "sum_km": 1570.0,
+      "rides": 97,
+      "riders": 6,
+      "km_per_head": 262.0
+    },
+    {
+      "timestamp": "2026-07-01T20:41:18Z",
+      "team_id": "nuernberg",
+      "sum_km": 8768.0,
+      "rides": 755,
+      "riders": 44,
+      "km_per_head": 199.0
+    },
+    {
+      "timestamp": "2026-07-01T20:41:18Z",
+      "team_id": "muenchen",
+      "sum_km": 1570.0,
+      "rides": 97,
+      "riders": 6,
+      "km_per_head": 262.0
+    },
+    {
+      "timestamp": "2026-07-02T09:12:46Z",
+      "team_id": "nuernberg",
+      "sum_km": 9227.0,
+      "rides": 775,
+      "riders": 44,
+      "km_per_head": 210.0
+    },
+    {
+      "timestamp": "2026-07-02T09:12:46Z",
+      "team_id": "muenchen",
+      "sum_km": 1571.0,
+      "rides": 98,
+      "riders": 6,
+      "km_per_head": 262.0
+    },
+    {
+      "timestamp": "2026-07-02T12:44:53Z",
+      "team_id": "nuernberg",
+      "sum_km": 9271.0,
+      "rides": 779,
+      "riders": 44,
+      "km_per_head": 211.0
+    },
+    {
+      "timestamp": "2026-07-02T12:44:53Z",
+      "team_id": "muenchen",
+      "sum_km": 1571.0,
+      "rides": 98,
+      "riders": 6,
+      "km_per_head": 262.0
+    },
+    {
+      "timestamp": "2026-07-02T16:34:31Z",
+      "team_id": "nuernberg",
+      "sum_km": 9297.0,
+      "rides": 781,
+      "riders": 44,
+      "km_per_head": 211.0
+    },
+    {
+      "timestamp": "2026-07-02T16:34:31Z",
+      "team_id": "muenchen",
+      "sum_km": 1571.0,
+      "rides": 98,
+      "riders": 6,
+      "km_per_head": 262.0
+    },
+    {
+      "timestamp": "2026-07-02T20:33:57Z",
+      "team_id": "nuernberg",
+      "sum_km": 9625.0,
+      "rides": 792,
+      "riders": 44,
+      "km_per_head": 219.0
+    },
+    {
+      "timestamp": "2026-07-02T20:33:57Z",
+      "team_id": "muenchen",
+      "sum_km": 1606.0,
+      "rides": 100,
+      "riders": 6,
+      "km_per_head": 268.0
+    },
+    {
+      "timestamp": "2026-07-03T10:43:52Z",
+      "team_id": "nuernberg",
+      "sum_km": 9907.0,
+      "rides": 814,
+      "riders": 44,
+      "km_per_head": 225.0
+    },
+    {
+      "timestamp": "2026-07-03T10:43:52Z",
+      "team_id": "muenchen",
+      "sum_km": 1610.0,
+      "rides": 101,
+      "riders": 6,
+      "km_per_head": 268.0
+    },
+    {
+      "timestamp": "2026-07-03T14:08:40Z",
+      "team_id": "nuernberg",
+      "sum_km": 9969.0,
+      "rides": 822,
+      "riders": 44,
+      "km_per_head": 227.0
+    },
+    {
+      "timestamp": "2026-07-03T14:08:40Z",
+      "team_id": "muenchen",
+      "sum_km": 1610.0,
+      "rides": 101,
+      "riders": 6,
+      "km_per_head": 268.0
+    },
+    {
+      "timestamp": "2026-07-03T17:14:32Z",
+      "team_id": "nuernberg",
+      "sum_km": 10115.0,
+      "rides": 826,
+      "riders": 44,
+      "km_per_head": 230.0
+    },
+    {
+      "timestamp": "2026-07-03T17:14:32Z",
+      "team_id": "muenchen",
+      "sum_km": 1610.0,
+      "rides": 101,
+      "riders": 6,
+      "km_per_head": 268.0
+    },
+    {
+      "timestamp": "2026-07-03T21:13:46Z",
+      "team_id": "nuernberg",
+      "sum_km": 10151.0,
+      "rides": 829,
+      "riders": 44,
+      "km_per_head": 231.0
+    },
+    {
+      "timestamp": "2026-07-03T21:13:46Z",
+      "team_id": "muenchen",
+      "sum_km": 1610.0,
+      "rides": 101,
+      "riders": 6,
+      "km_per_head": 268.0
+    },
+    {
+      "timestamp": "2026-07-04T10:17:14Z",
+      "team_id": "nuernberg",
+      "sum_km": 10351.0,
+      "rides": 845,
+      "riders": 44,
+      "km_per_head": 235.0
+    },
+    {
+      "timestamp": "2026-07-04T10:17:14Z",
+      "team_id": "muenchen",
+      "sum_km": 1610.0,
+      "rides": 101,
+      "riders": 6,
+      "km_per_head": 268.0
+    },
+    {
+      "timestamp": "2026-07-04T13:36:18Z",
+      "team_id": "nuernberg",
+      "sum_km": 10529.0,
+      "rides": 851,
+      "riders": 44,
+      "km_per_head": 239.0
+    },
+    {
+      "timestamp": "2026-07-04T13:36:18Z",
+      "team_id": "muenchen",
+      "sum_km": 1619.0,
+      "rides": 103,
+      "riders": 6,
+      "km_per_head": 270.0
+    },
+    {
+      "timestamp": "2026-07-04T16:55:16Z",
+      "team_id": "nuernberg",
+      "sum_km": 10809.0,
+      "rides": 860,
+      "riders": 44,
+      "km_per_head": 246.0
+    },
+    {
+      "timestamp": "2026-07-04T16:55:16Z",
+      "team_id": "muenchen",
+      "sum_km": 1619.0,
+      "rides": 103,
+      "riders": 6,
+      "km_per_head": 270.0
+    },
+    {
+      "timestamp": "2026-07-04T21:04:27Z",
+      "team_id": "nuernberg",
+      "sum_km": 10854.0,
+      "rides": 862,
+      "riders": 44,
+      "km_per_head": 247.0
+    },
+    {
+      "timestamp": "2026-07-04T21:04:27Z",
+      "team_id": "muenchen",
+      "sum_km": 1619.0,
+      "rides": 103,
+      "riders": 6,
+      "km_per_head": 270.0
+    },
+    {
+      "timestamp": "2026-07-05T10:22:28Z",
+      "team_id": "nuernberg",
+      "sum_km": 11149.0,
+      "rides": 873,
+      "riders": 44,
+      "km_per_head": 253.0
+    },
+    {
+      "timestamp": "2026-07-05T10:22:28Z",
+      "team_id": "muenchen",
+      "sum_km": 2050.0,
+      "rides": 106,
+      "riders": 6,
+      "km_per_head": 342.0
+    },
+    {
+      "timestamp": "2026-07-05T13:42:35Z",
+      "team_id": "nuernberg",
+      "sum_km": 11224.0,
+      "rides": 876,
+      "riders": 44,
+      "km_per_head": 255.0
+    },
+    {
+      "timestamp": "2026-07-05T13:42:35Z",
+      "team_id": "muenchen",
+      "sum_km": 1676.0,
+      "rides": 128,
+      "riders": 7,
+      "km_per_head": 239.0
+    },
+    {
+      "timestamp": "2026-07-05T16:57:30Z",
+      "team_id": "nuernberg",
+      "sum_km": 11502.0,
+      "rides": 882,
+      "riders": 44,
+      "km_per_head": 261.0
+    },
+    {
+      "timestamp": "2026-07-05T16:57:30Z",
+      "team_id": "muenchen",
+      "sum_km": 1735.0,
+      "rides": 170,
+      "riders": 7,
+      "km_per_head": 248.0
+    },
+    {
+      "timestamp": "2026-07-05T21:07:55Z",
+      "team_id": "nuernberg",
+      "sum_km": 11629.0,
+      "rides": 885,
+      "riders": 44,
+      "km_per_head": 264.0
+    },
+    {
+      "timestamp": "2026-07-05T21:07:55Z",
+      "team_id": "muenchen",
+      "sum_km": 1735.0,
+      "rides": 170,
+      "riders": 7,
+      "km_per_head": 248.0
+    },
+    {
+      "timestamp": "2026-07-06T12:09:58Z",
+      "team_id": "nuernberg",
+      "sum_km": 12293.0,
+      "rides": 925,
+      "riders": 44,
+      "km_per_head": 279.0
+    },
+    {
+      "timestamp": "2026-07-06T12:09:58Z",
+      "team_id": "muenchen",
+      "sum_km": 2140.0,
+      "rides": 171,
+      "riders": 7,
+      "km_per_head": 306.0
+    },
+    {
+      "timestamp": "2026-07-06T15:36:24Z",
+      "team_id": "nuernberg",
+      "sum_km": 12293.0,
+      "rides": 925,
+      "riders": 44,
+      "km_per_head": 279.0
+    },
+    {
+      "timestamp": "2026-07-06T15:36:24Z",
+      "team_id": "muenchen",
+      "sum_km": 2140.0,
+      "rides": 171,
+      "riders": 7,
+      "km_per_head": 306.0
+    },
+    {
+      "timestamp": "2026-07-06T18:05:34Z",
+      "team_id": "nuernberg",
+      "sum_km": 12293.0,
+      "rides": 925,
+      "riders": 44,
+      "km_per_head": 279.0
+    },
+    {
+      "timestamp": "2026-07-06T18:05:34Z",
+      "team_id": "muenchen",
+      "sum_km": 2225.0,
+      "rides": 183,
+      "riders": 7,
+      "km_per_head": 318.0
+    },
+    {
+      "timestamp": "2026-07-06T21:40:53Z",
+      "team_id": "nuernberg",
+      "sum_km": 12293.0,
+      "rides": 925,
+      "riders": 44,
+      "km_per_head": 279.0
+    },
+    {
+      "timestamp": "2026-07-06T21:40:53Z",
+      "team_id": "muenchen",
+      "sum_km": 2225.0,
+      "rides": 183,
+      "riders": 7,
+      "km_per_head": 318.0
+    },
+    {
+      "timestamp": "2026-07-07T11:14:34Z",
+      "team_id": "nuernberg",
+      "sum_km": 12346.0,
+      "rides": 930,
+      "riders": 44,
+      "km_per_head": 281.0
+    },
+    {
+      "timestamp": "2026-07-07T11:14:34Z",
+      "team_id": "muenchen",
+      "sum_km": 2225.0,
+      "rides": 183,
+      "riders": 7,
+      "km_per_head": 318.0
+    },
+    {
+      "timestamp": "2026-07-07T14:37:47Z",
+      "team_id": "nuernberg",
+      "sum_km": 12346.0,
+      "rides": 930,
+      "riders": 44,
+      "km_per_head": 281.0
+    },
+    {
+      "timestamp": "2026-07-07T14:37:47Z",
+      "team_id": "muenchen",
+      "sum_km": 2225.0,
+      "rides": 183,
+      "riders": 7,
+      "km_per_head": 318.0
+    },
+    {
+      "timestamp": "2026-07-07T17:52:47Z",
+      "team_id": "nuernberg",
+      "sum_km": 12346.0,
+      "rides": 930,
+      "riders": 44,
+      "km_per_head": 281.0
+    },
+    {
+      "timestamp": "2026-07-07T17:52:47Z",
+      "team_id": "muenchen",
+      "sum_km": 2225.0,
+      "rides": 183,
+      "riders": 7,
+      "km_per_head": 318.0
+    },
+    {
+      "timestamp": "2026-07-07T21:35:08Z",
+      "team_id": "nuernberg",
+      "sum_km": 12346.0,
+      "rides": 930,
+      "riders": 44,
+      "km_per_head": 281.0
+    },
+    {
+      "timestamp": "2026-07-07T21:35:08Z",
+      "team_id": "muenchen",
+      "sum_km": 2225.0,
+      "rides": 183,
+      "riders": 7,
+      "km_per_head": 318.0
+    },
+    {
+      "timestamp": "2026-07-08T10:24:52Z",
+      "team_id": "nuernberg",
+      "sum_km": 12346.0,
+      "rides": 930,
+      "riders": 44,
+      "km_per_head": 281.0
+    },
+    {
+      "timestamp": "2026-07-08T10:24:52Z",
+      "team_id": "muenchen",
+      "sum_km": 2225.0,
+      "rides": 183,
+      "riders": 7,
+      "km_per_head": 318.0
+    },
+    {
+      "timestamp": "2026-07-08T14:12:07Z",
+      "team_id": "nuernberg",
+      "sum_km": 12346.0,
+      "rides": 930,
+      "riders": 44,
+      "km_per_head": 281.0
+    },
+    {
+      "timestamp": "2026-07-08T14:12:07Z",
+      "team_id": "muenchen",
+      "sum_km": 2225.0,
+      "rides": 183,
+      "riders": 7,
+      "km_per_head": 318.0
+    },
+    {
+      "timestamp": "2026-07-08T17:20:33Z",
+      "team_id": "nuernberg",
+      "sum_km": 12346.0,
+      "rides": 930,
+      "riders": 44,
+      "km_per_head": 281.0
+    },
+    {
+      "timestamp": "2026-07-08T17:20:33Z",
+      "team_id": "muenchen",
+      "sum_km": 2225.0,
+      "rides": 183,
+      "riders": 7,
+      "km_per_head": 318.0
+    },
+    {
+      "timestamp": "2026-07-08T21:14:00Z",
+      "team_id": "nuernberg",
+      "sum_km": 12346.0,
+      "rides": 930,
+      "riders": 44,
+      "km_per_head": 281.0
+    },
+    {
+      "timestamp": "2026-07-08T21:14:00Z",
+      "team_id": "muenchen",
+      "sum_km": 2225.0,
+      "rides": 183,
+      "riders": 7,
+      "km_per_head": 318.0
+    },
+    {
+      "timestamp": "2026-07-09T11:11:14Z",
+      "team_id": "nuernberg",
+      "sum_km": 12370.0,
+      "rides": 931,
+      "riders": 44,
+      "km_per_head": 281.0
+    },
+    {
+      "timestamp": "2026-07-09T11:11:14Z",
+      "team_id": "muenchen",
+      "sum_km": 2225.0,
+      "rides": 183,
+      "riders": 7,
+      "km_per_head": 318.0
+    },
+    {
+      "timestamp": "2026-07-09T15:13:02Z",
+      "team_id": "nuernberg",
+      "sum_km": 12370.0,
+      "rides": 931,
+      "riders": 44,
+      "km_per_head": 281.0
+    },
+    {
+      "timestamp": "2026-07-09T15:13:02Z",
+      "team_id": "muenchen",
+      "sum_km": 2225.0,
+      "rides": 183,
+      "riders": 7,
+      "km_per_head": 318.0
+    },
+    {
+      "timestamp": "2026-07-09T17:48:34Z",
+      "team_id": "nuernberg",
+      "sum_km": 12370.0,
+      "rides": 931,
+      "riders": 44,
+      "km_per_head": 281.0
+    },
+    {
+      "timestamp": "2026-07-09T17:48:34Z",
+      "team_id": "muenchen",
+      "sum_km": 2225.0,
+      "rides": 183,
+      "riders": 7,
+      "km_per_head": 318.0
+    },
+    {
+      "timestamp": "2026-07-09T21:27:02Z",
+      "team_id": "nuernberg",
+      "sum_km": 12370.0,
+      "rides": 931,
+      "riders": 44,
+      "km_per_head": 281.0
+    },
+    {
+      "timestamp": "2026-07-09T21:27:02Z",
+      "team_id": "muenchen",
+      "sum_km": 2225.0,
+      "rides": 183,
+      "riders": 7,
+      "km_per_head": 318.0
+    },
+    {
+      "timestamp": "2026-07-10T11:10:51Z",
+      "team_id": "nuernberg",
+      "sum_km": 12370.0,
+      "rides": 931,
+      "riders": 44,
+      "km_per_head": 281.0
+    },
+    {
+      "timestamp": "2026-07-10T11:10:51Z",
+      "team_id": "muenchen",
+      "sum_km": 2225.0,
+      "rides": 183,
+      "riders": 7,
+      "km_per_head": 318.0
+    },
+    {
+      "timestamp": "2026-07-10T14:29:29Z",
+      "team_id": "nuernberg",
+      "sum_km": 12370.0,
+      "rides": 931,
+      "riders": 44,
+      "km_per_head": 281.0
+    },
+    {
+      "timestamp": "2026-07-10T14:29:29Z",
+      "team_id": "muenchen",
+      "sum_km": 2225.0,
+      "rides": 183,
+      "riders": 7,
+      "km_per_head": 318.0
+    },
+    {
+      "timestamp": "2026-07-10T17:41:30Z",
+      "team_id": "nuernberg",
+      "sum_km": 12370.0,
+      "rides": 931,
+      "riders": 44,
+      "km_per_head": 281.0
+    },
+    {
+      "timestamp": "2026-07-10T17:41:30Z",
+      "team_id": "muenchen",
+      "sum_km": 2225.0,
+      "rides": 183,
+      "riders": 7,
+      "km_per_head": 318.0
+    },
+    {
+      "timestamp": "2026-07-10T21:10:44Z",
+      "team_id": "nuernberg",
+      "sum_km": 12370.0,
+      "rides": 931,
+      "riders": 44,
+      "km_per_head": 281.0
+    },
+    {
+      "timestamp": "2026-07-10T21:10:44Z",
+      "team_id": "muenchen",
+      "sum_km": 2225.0,
+      "rides": 183,
+      "riders": 7,
+      "km_per_head": 318.0
+    },
+    {
+      "timestamp": "2026-07-11T09:43:21Z",
+      "team_id": "nuernberg",
+      "sum_km": 12370.0,
+      "rides": 931,
+      "riders": 44,
+      "km_per_head": 281.0
+    },
+    {
+      "timestamp": "2026-07-11T09:43:21Z",
+      "team_id": "muenchen",
+      "sum_km": 2225.0,
+      "rides": 183,
+      "riders": 7,
+      "km_per_head": 318.0
+    },
+    {
+      "timestamp": "2026-07-11T13:22:05Z",
+      "team_id": "nuernberg",
+      "sum_km": 12370.0,
+      "rides": 931,
+      "riders": 44,
+      "km_per_head": 281.0
+    },
+    {
+      "timestamp": "2026-07-11T13:22:05Z",
+      "team_id": "muenchen",
+      "sum_km": 2225.0,
+      "rides": 183,
+      "riders": 7,
+      "km_per_head": 318.0
+    },
+    {
+      "timestamp": "2026-07-11T16:44:09Z",
+      "team_id": "nuernberg",
+      "sum_km": 12370.0,
+      "rides": 931,
+      "riders": 44,
+      "km_per_head": 281.0
+    },
+    {
+      "timestamp": "2026-07-11T16:44:09Z",
+      "team_id": "muenchen",
+      "sum_km": 2225.0,
+      "rides": 183,
+      "riders": 7,
+      "km_per_head": 318.0
+    },
+    {
+      "timestamp": "2026-07-11T20:56:50Z",
+      "team_id": "nuernberg",
+      "sum_km": 12370.0,
+      "rides": 931,
+      "riders": 44,
+      "km_per_head": 281.0
+    },
+    {
+      "timestamp": "2026-07-11T20:56:50Z",
+      "team_id": "muenchen",
+      "sum_km": 2225.0,
+      "rides": 183,
+      "riders": 7,
+      "km_per_head": 318.0
+    },
+    {
+      "timestamp": "2026-07-12T09:56:25Z",
+      "team_id": "nuernberg",
+      "sum_km": 12370.0,
+      "rides": 931,
+      "riders": 44,
+      "km_per_head": 281.0
+    },
+    {
+      "timestamp": "2026-07-12T09:56:25Z",
+      "team_id": "muenchen",
+      "sum_km": 2225.0,
+      "rides": 183,
+      "riders": 7,
+      "km_per_head": 318.0
+    },
+    {
+      "timestamp": "2026-07-12T13:22:38Z",
+      "team_id": "nuernberg",
+      "sum_km": 12370.0,
+      "rides": 931,
+      "riders": 44,
+      "km_per_head": 281.0
+    },
+    {
+      "timestamp": "2026-07-12T13:22:38Z",
+      "team_id": "muenchen",
+      "sum_km": 2225.0,
+      "rides": 183,
+      "riders": 7,
+      "km_per_head": 318.0
+    },
+    {
+      "timestamp": "2026-07-12T16:48:31Z",
+      "team_id": "nuernberg",
+      "sum_km": 12370.0,
+      "rides": 931,
+      "riders": 44,
+      "km_per_head": 281.0
+    },
+    {
+      "timestamp": "2026-07-12T16:48:31Z",
+      "team_id": "muenchen",
+      "sum_km": 2225.0,
+      "rides": 183,
+      "riders": 7,
+      "km_per_head": 318.0
+    },
+    {
+      "timestamp": "2026-07-12T20:57:11Z",
+      "team_id": "nuernberg",
+      "sum_km": 12370.0,
+      "rides": 931,
+      "riders": 44,
+      "km_per_head": 281.0
+    },
+    {
+      "timestamp": "2026-07-12T20:57:11Z",
+      "team_id": "muenchen",
+      "sum_km": 2225.0,
+      "rides": 183,
+      "riders": 7,
+      "km_per_head": 318.0
     }
   ],
-  "last_updated": "2026-06-18T09:40:03Z",
+  "last_updated": "2026-07-12T20:57:11Z",
   "meta": {
     "description": "Time-series snapshots of STADTRADELN leaderboard data for all Dataciders teams",
     "fields": [
